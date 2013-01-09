@@ -20,16 +20,16 @@ background-color: black;
 </style>
 <script id="tmpl-task-item" type="text/x-jquery-tmpl">
 <li class="task-item" rel="${id}">
-	<div>
+	<a href="#task/get&id=${id}">
 		<span class="add-on task-checkbox">x</span>
 		<span>${title}</span>
 		<a>*</a>
-	</div>
+	</a>
 </li>
 </script>
 <script id="tmpl-list-item" type="text/x-jquery-tmpl">
 <li class="task-list" rel="${id}">
-	<a href="#list/index&id=${id}">
+	<a href="#list/get&id=${id}">
 		<i class="icon-chevron-right"></i>
 		<span>${list_title}</span>
 	</a>
@@ -106,7 +106,7 @@ background-color: black;
 			},"json");
 		},
 		bindEvent : function(item) {
-			$this = this;
+			var $this = this;
 			$('span.task-checkbox', item).click(function() {
 				$this.done(this);
 			});
@@ -134,8 +134,10 @@ background-color: black;
 //list 
 (function($, tp){
 	tp.mix("list", {
-		select : function() {
-			TP.item.getAll(999);
+		select : function(elem) {
+			var itemElem = $(elem);
+			var id = itemElem.attr('rel');
+			TP.item.getAll(id);
 		},
 		addItem : function (item) {
 			var item = $('#tmpl-list-item').tmpl(item);
@@ -143,9 +145,9 @@ background-color: black;
 			this.bindEvent(item);
 		},
 		bindEvent : function(item) {
-			$this = this;
+			var $this = this;
 			$(item).click(function() {
-				$this.select();
+				$this.select(this);
 			});
 		},
 		getAll : function() {
