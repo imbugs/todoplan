@@ -48,6 +48,10 @@ div.scrollable {
 	width:100%;
 	overflow:auto;
 }
+
+input#addItem {
+	border: 1px solid gray; 
+}
 -->
 </style>
 <script id="tmpl-task-item" type="text/x-jquery-tmpl">
@@ -122,6 +126,7 @@ div.scrollable {
 			} else {
 				item.appendTo('ul.todo-tasks');
 			}
+			this.loadComplete();
 			this.bindEvent(item);
 		},
 		loadComplete: function() {
@@ -234,7 +239,11 @@ $(function() {
 			});
 		}
 	});
-	TP.item.scroll = new iScroll('scrollable', {hScroll:false, hScrollbar: false, vScrollbar: false });
+	TP.item.scroll = new iScroll('scrollable', {hScroll:false, hScrollbar: false});
+
+	// resize input box 
+	var w = $('li#input-width').width();
+	$('input#addItem').width(w-14);
 });
 //-->
 </script>
@@ -259,7 +268,11 @@ $(function() {
 		<div style="width: 1px; background-color: gray; float: left" class="height100"></div>
 		<div class="tasks span8 height100">
 			<div class="add-tasks area">
-				<input type="text" name="addItem" id="addItem" maxlength="255" class="input-xxlarge" placeholder="添加一个任务...">
+				<ul class="task-items nav nav-tabs nav-stacked">
+					<li id="input-width">
+						<input type="text" name="addItem" id="addItem" maxlength="255" class="input-xxlarge" placeholder="添加一个任务...">
+					</li>
+				</ul>
 			</div>
 			<div id="scrollable" class="scrollable">
 				<div id="scroller">
