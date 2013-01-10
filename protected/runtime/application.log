@@ -1122,3 +1122,17 @@ Stack trace:
 #11 {main}
 REQUEST_URI=/todoplan/?r=list/all
 ---
+2013/01/10 07:06:13 [error] [php] include(TaskList.php) [<a href='function.include'>function.include</a>]: failed to open stream: 没有那个文件或目录 (/opt/lampp/htdocs/todoplan/yii-1.1.13/framework/YiiBase.php:421)
+Stack trace:
+#0 /opt/lampp/htdocs/todoplan/protected/controllers/SiteController.php(23): spl_autoload_call()
+#1 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/actions/CInlineAction.php(49): SiteController->actionIndex()
+#2 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CController.php(286): SiteController->runAction()
+#4 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CController.php(265): SiteController->runActionWithFilters()
+#5 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CWebApplication.php(282): SiteController->run()
+#6 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#7 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#8 /opt/lampp/htdocs/todoplan/index.php(13): CWebApplication->run()
+REQUEST_URI=/todoplan/
+in /opt/lampp/htdocs/todoplan/protected/controllers/SiteController.php (23)
+in /opt/lampp/htdocs/todoplan/index.php (13)

@@ -17,12 +17,9 @@ class SiteController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$criteria = new CDbCriteria();
-		$criteria->select='id, list_id, title, starred';  // 只选择 'title' 列
-		$criteria->condition='list_id=999';
-		$items=TaskItem::model()->findAll($criteria);
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
+		$items = 0;
 		$this->render('index', array('taskItems' => $items));
 	}
 

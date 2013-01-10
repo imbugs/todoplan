@@ -28,7 +28,7 @@ class TaskList extends CActiveRecord
 		foreach ($colNames as $col) {
 			$to->$col = $this->$col;
 		}
-			
+
 		return $to;
 	}
 	
