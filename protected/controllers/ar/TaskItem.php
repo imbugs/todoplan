@@ -4,13 +4,11 @@ class TaskItem extends CActiveRecord
 	var $error_msg = null;
 	var $last_sort_id = 0;
 	
-	public static function model($className=__CLASS__)
-	{
+	public static function model($className=__CLASS__) {
 		return parent::model($className);
 	}
 
-	public function tableName()
-	{
+	public function tableName() {
 		return 'task_item';
 	}
 
@@ -26,8 +24,7 @@ class TaskItem extends CActiveRecord
 		return true;
 	}
 
-	public function recently($done = "false", $limit = -1)
-	{
+	public function recently($done = "false", $limit = -1) {
 		$order = 'sort_id, gmt_create ASC';
 		if ($done == "true") {
 			$order = 'sort_id, gmt_done ASC';

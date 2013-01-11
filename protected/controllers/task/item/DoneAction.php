@@ -1,8 +1,7 @@
 <?php
-require_once(Yii::app()->basePath . "/controllers/ar/TaskItem.php");
-require_once(Yii::app()->basePath . "/controllers/task/item/UpdateAction.php");
+require_once(Yii::app()->basePath . "/controllers/task/item/AbstractUpdateAction.php");
 
-class DoneAction extends UpdateAction
+class DoneAction extends AbstractUpdateAction
 {
 	public function update(&$taskItem) {
 		$undo = Yii::app()->getRequest()->getParam("undo", "false");

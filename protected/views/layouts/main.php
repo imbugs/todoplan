@@ -6,19 +6,22 @@
 	<meta name="language" content="en" />
 
 	<!-- blueprint CSS framework -->
+	<!-- APP CSS -->
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/bootstrap/css/bootstrap.min.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/bootstrap/css/bootstrap-responsive.min.css"/>
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/screen.css" media="screen, projection" />
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/print.css" media="print" />
+	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/css/wunderlist.css"/>
+	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/css/screen.css" media="screen, projection" />
+	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/css/print.css" media="print" />
+	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/css/main.css"/>
 	<!--[if lt IE 8]>
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/css/ie.css" media="screen, projection" />
+	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/css/ie.css" media="screen, projection" />
 	<![endif]-->
 
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/jquery/1.8.3/jquery.min.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/bootstrap/js/bootstrap.min.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/keybind/jquery.keybind.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/tmpl/jquery.tmpl.min.js"></script>
-	<script type="text/javascript" src="http://lab.cubiq.org/iscroll/src/iscroll.js"></script>
+	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/iscroll/iscroll.js"></script>
 
 	<script type="text/javascript">
 	<!--
@@ -30,51 +33,6 @@
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 	
 	<style type="text/css">
-	/* Sticky footer styles
-	-------------------------------------------------- */
-	html,body {
-		height: 100%;
-		/* The html and body elements cannot have any padding or margin. */
-		background-color: #f5f5f5;
-		overflow: hidden;
-	}
-	
-	/* Wrapper for page content to push down footer */
-	div#wrapper {
-		min-height: 100%;
-		height: 100%;
-		margin: 0 auto -60px;
-		background-color: white;
-	}
-	
-	/* Set the fixed height of the footer here */
-	#footer {
-		position: absolute;
-		height: 30px;
-		line-height: 30px;
-		bottom: 0;
-		left:0;
-		right:0;
-		background-color: #f5f5f5;
-	}
-	
-	/* Custom page CSS
-	      -------------------------------------------------- */
-	/* Not required for template or sticky footer method. */
-	.container {
-		margin: 20px 0;
-	}
-	
-	.height100 {
-		position: relative;
-		min-height: 100%;
-		max-height: 100%;
-		height: 100%;
-	}
-	
-	* html .height100 {
-		height: 100%;
-	}
 	</style>
 </head>
 

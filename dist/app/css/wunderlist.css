@@ -1,0 +1,30 @@
+@CHARSET "UTF-8";
+
+.icon {
+	background-image: url("../images/wunderlist.png");
+	cursor: pointer;
+	vertical-align: middle;
+	display: inline-block;
+}
+
+.icon.task-checkbox {
+	background-position: -40px -20px;
+	width: 18px;
+	height: 18px;
+}
+
+.icon.task-checked {
+	background-position: -80px -20px;
+	width: 18px;
+	height: 18px;
+}
+
+.icon.detail-trash {
+	background-position: -80px -60px;
+	width: 20px;
+	height: 20px;
+}
+
+a.disabled, #sidebar-actions a.disabled:hover {
+	opacity: .2;
+}
