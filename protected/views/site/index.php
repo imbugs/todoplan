@@ -5,105 +5,27 @@ $this->pageTitle=Yii::app()->name;
 ?>
 <style>
 <!--
-a, a:hover {
-	text-decoration: none;
-	color: black;
-}
-.done-tasks span.title {
-	text-decoration: line-through;
-}
-input.update {
-	margin: 0;
-	padding: 0px 5px 0px 5px;
-}
-div.area {
-	margin-bottom: 10px;
-}
-.task-checkbox {
-	cursor: pointer;
-	width: 18px;
-	height: 18px;
-}
-.task-items {
-	padding: 0;
-}
-div.span3 h1 {
-	height: 38px;
-	line-height: 38px;
-	min-height: 38px;
-	text-align: center;
-	padding: 0;
-	margin: 0;
-}
-div.span8 {
-	padding: 40px 0px 0px 0px;
-}
-span.title {
-	margin-left: 5px;
-}
-input#addItem {
-	border: 1px solid gray; 
-}
-
-div#sidebar-actions {
-	position: absolute;
-	margin-left: -10px;
-	padding: 8px 0px 8px 10px;
-	bottom: 30px;
-	height: 40px;
-	min-height: 40px;
-	max-height: 40px;
-	width: 23.6%;
-	*width: 23.6%;
-}
-div#scrollable-list {
-	top: 38px;
-	bottom: 70px;
-	width: 23.6%;
-	*width: 23.6%;
-}
-
-div#scrollable-item {
-	top: 90px;
-	bottom: 50px;
-	width:100%;
-}
-
-div.right-side-container {
-	position: absolute;
-	top: 90px;
-	right: 0px;
-	height: 60%;
-	min-height: 60%;
-	width: 35%;
-}
-div.right-side {
-	position: absolute;
-	z-index: 999;
-	height: 100%;
-	min-height: 100%;
-	width: 100%;
-	background-color: white;
-	-webkit-border-radius: 20px;
-	-moz-border-radius: 20px;
-	border-radius: 20px 0px 0px 20px;
-	border: solid 1px lightgray;
-	border-right: none;
-	-webkit-box-shadow: inset 0 5px 5px rgba(0, 0, 0, 0.1);
-	-moz-box-shadow: inset 0 5px 5px rgba(0, 0, 0, 0.1);
-	box-shadow: inset 0 5px 5px rgba(0, 0, 0, 0.1);
-}
-
 -->
 </style>
 <script id="tmpl-task-item" type="text/x-jquery-tmpl">
 <li class="task-item" rel="${id}">
-	<a href="#task/${id}">
+	<a href="#task/${id}" class="item-title" data-target="#item_content_${id}">
 		<span class="add-on task-checkbox">
 			<i class="icon ${icon}"></i>
 		</span>
 		<span class="title">${title}</span>
+		<span class="holder"></span>
+		<span class="task-edit-title opacity75">
+			<i class="icon-collapse icon-chevron-down"></i>
+			<i class="icon-edit"></i>
+			<i class="icon-remove"></i>
+		</span>
 	</a>
+	<div id="item_content_${id}" class="collapse ">
+		<div class="item-detail note">
+			<textarea class='expanding' placeholder="输入任务描述...">${content}</textarea>
+		</div>
+	</div>
 </li>
 </script>
 <script id="tmpl-list-item" type="text/x-jquery-tmpl">
@@ -120,6 +42,12 @@ div.right-side {
 	<input type="text" name="updateList" id="updateList" maxlength="63" class="input-small update editor"
 		placeholder="新名称..." oldvalue="${title}" value="${title}">
 </a>
+</script>
+<script id="tmpl-input-editor" type="text/x-jquery-tmpl">
+<span class="input-container">
+	<input type="text" name="input-update" id="input-update" maxlength="63" class="${size} update editor"
+		placeholder="新名称..." oldvalue="${title}" value="${title}">
+</span>
 </script>
 <script type="text/javascript">
 <!--
@@ -152,23 +80,74 @@ div.right-side {
 	window.TP = tp;
 })($, window);
 
+// input editor 
+(function($, tp){
+	var InputEditor = function(elem, size) {
+		this.element = elem;
+		this.size = size || "input-small";
+		this.trigger = function(text) {
+			console.log(text);
+		};
+		this.showInput = function() {
+			this.remove();
+			var title = this.element.find('span.title').text();
+			var editorWrapper = $('#tmpl-input-editor').tmpl({title: title, size: this.size});
+			$(editorWrapper).click(function(e) {
+				e.stopPropagation();
+			    return false;
+			});
+			this.element.find('span.title').hide();
+			this.element.find('span.holder').append(editorWrapper);
+			var editor = this.element.find('input.editor');
+			editor.focus();
+			this.bindEvent(editor);
+		}
+		this.bindEvent = function(editor) {
+			var $this = this;
+			$(editor).parent().click(function(e){
+				e.stopPropagation();
+			    return false;
+			});
+			$(document).click(function(e){
+				$this.commit();
+			});
+			$(editor).keybind('keydown', {
+				'return': function(o) {
+					$this.commit();
+				},
+				'escape': function(o){
+					$this.remove();
+				}
+			});
+		},
+		this.commit = function() {
+			var editor = this.element.find('input.editor');
+			if (editor.size() > 0) {
+				var text = editor.val();
+				if(text != editor.attr('oldvalue')) {
+					this.trigger && this.trigger(text);
+				}
+			}
+			this.remove();
+		}
+		this.remove = function() {
+			this.element.find('span.holder').html('');
+			this.element.find('span.title').show();
+		}
+	};
+	tp.mix("editor", {
+		InputEditor: InputEditor
+	});
+})($, window.TP);
+
 // item 
 (function($, tp){
-	tp.mix("item", {
+	var item = {
+		__init : function (item, done) {
+		}
+	};
+	item.view = {
 		scroll: null,
-		createItem : function(content, listId, handler) {
-			var $this = this;
-			$.post("?r=item/create", {title: content, list_id: listId}, function(reps) {
-				if (reps.success) {
-					$this.addItem(reps.item);
-					if (handler && typeof(handler) == "function") {
-						handler(reps);
-					}
-				} else {
-					TP.fn.msg("添加任务失败");
-				}
-			},"json");
-		},
 		addItem : function (item, done) {
 			if (done) {
 				item.icon = "task-checked";
@@ -196,78 +175,175 @@ div.right-side {
 				this.scroll.refresh();
 			}
 		},
-		getAll : function (listId) {
+		bindEvent : function(elem) {
 			var $this = this;
+			$('span.task-checkbox', elem).click(function(e) {
+				var itemElem = $(this).parent().parent();
+				var undo = itemElem.parent().hasClass('done-tasks');
+				var id = itemElem.attr('rel')
+				item.controller.done(id, undo, function(reps){
+					// 从todolist删除，加入donelist
+					itemElem.remove();
+				});
+				e.stopPropagation();
+			    return false;
+			});
+			$('i.icon-remove', elem).click(function(e){
+				var element = $(this).parent().parent();
+				var id = $(element).parent().attr('rel');
+				var title = $(element).find('span.title').text();
+				if (confirm("确定删除 [" + title + "] ?")) {
+					TP.item.controller.deleteItem(id, function(reps){
+						$(element).parent().remove();
+					});
+				}
+				e.stopPropagation();
+			    return false;
+			});
+			$('i.icon-edit', elem).click(function(e){
+				var element = $(this).parent().parent();
+				var inputEditor = new tp.editor.InputEditor($(element), "input-item-editor");
+				inputEditor.showInput();
+				var id = $(element).parent().attr('rel');
+				inputEditor.trigger = function(title) {
+					TP.item.controller.updateItem({id: id, title: title}, function(reps) {
+						$('span.title', element).text(reps.item.title);
+					});
+				};
+				e.stopPropagation();
+			    return false;
+			});
+			var titleElem = $('a.item-title', elem);
+			
+			var collaspe = $(elem).find('div.collapse');
+			$(collaspe).collapse({toggle: false});
+			$(collaspe).on('hidden', function () {
+				var icon = $(elem).find('i.icon-collapse');
+				$(icon).removeClass('icon-chevron-up');
+				$(icon).addClass('icon-chevron-down');
+				$(titleElem).removeClass('expand');
+				$this.onChangeItem();
+			});
+			$(collaspe).on('shown', function () {
+				var icon = $(elem).find('i.icon-collapse');
+				$(icon).removeClass('icon-chevron-down');
+				$(icon).addClass('icon-chevron-up');
+				$(titleElem).addClass('expand');
+				$this.onChangeItem();
+			});
+			var textarea = $(elem).find('textarea.expanding');
+			var expandingTextarea = $(textarea).expandingTextarea();
+			$(textarea).blur(function(e){
+				var $this = $(this);
+				if (expandingTextarea.isChange()) {
+					var text = expandingTextarea.getValue();
+					var id = $(elem).attr('rel');
+					TP.item.controller.updateItem({id: id, content: text}, function(reps) {
+						expandingTextarea.setValue(reps.item.content);
+					});
+				}
+			});
+			$(titleElem).click(function(e) {
+				if($(collaspe).hasClass('in')){
+					$(collaspe).collapse('hide');
+				} else {
+					$(titleElem).addClass('expand'); //fix last item radius 
+					$(collaspe).collapse('show');
+				}
+			});
+		}
+	};
+	item.controller = {
+		createItem : function(content, listId, handler) {
+			$.post("?r=item/create", {title: content, list_id: listId}, function(reps) {
+				if (reps.success) {
+					item.view.addItem(reps.item);
+					if (handler && typeof(handler) == "function") {
+						handler(reps);
+					}
+				} else {
+					TP.fn.msg("添加任务失败");
+				}
+			},"json");
+		},
+		getAll : function (listId) {
 			$('ul.todo-tasks').empty();
 			$.post("?r=item/all", {done: false, list_id: listId}, function(reps){
 				for (idx in reps) {
-					$this.addItem(reps[idx], false);
+					item.view.addItem(reps[idx], false);
 				}
 			},"json");
 			$('ul.done-tasks').empty();
 			$.post("?r=item/all", {done: true, list_id: listId}, function(reps){
 				for (idx in reps) {
-					$this.addItem(reps[idx], true);
+					item.view.addItem(reps[idx], true);
 				}
 			},"json");
-			this.onChangeItem();
 		},
-		bindEvent : function(item) {
-			var $this = this;
-			$('span.task-checkbox', item).click(function(e) {
-				$this.done(this);
-				e.stopPropagation();
-			    return false;
-			});
-			$(item).click(function(e) {
-				alert($('div.right-side').css('right', '40px'));
-				e.stopPropagation();
-			    return false;
-			});
-			
-		},
-		done : function(elem) {
-			var $this = this;
-			var itemElem = $(elem).parent().parent();
-			var undo = itemElem.parent().hasClass('done-tasks');
-			var id = itemElem.attr('rel');
+		done : function(id, undo, handler) {
 			$.post("?r=item/done", {id: id, undo: undo}, function(reps){
 				if (reps.success) {
-					// 从todolist删除，加入donelist
-					itemElem.remove();
-					$this.addItem(reps.item, !undo);
+					item.view.addItem(reps.item, !undo);
+					if (handler && typeof(handler) == "function") {
+						handler(reps);
+						TP.item.view.onChangeItem();
+					}
 				} else {
 					TP.fn.msg("任务状态更新失败");
 				}
 			},"json");
 		},
-		__init : function (item, done) {
+		updateItem: function(data, handler) {
+			// data: {id: id, title: content}
+			for (idx in data) {
+				if (!(data[idx] && data[idx] != "")) {
+					return;
+				}
+			}
+			$.post("?r=item/update", data , function(reps){
+				if (reps.success) {
+					if (handler && typeof(handler) == "function") {
+						handler(reps);
+					}
+				} else {
+					TP.fn.msg("更新列表失败");
+				}
+			},"json");
+		},
+		deleteItem: function(id, handler) {
+			$.post("?r=item/delete", {id: id}, function(reps){
+				if (reps.success) {
+					if (handler && typeof(handler) == "function") {
+						handler(reps);
+					}
+				} else {
+					TP.fn.msg("删除列表失败");
+				}
+			},"json");
 		}
-	});
+	};
+	tp.mix("item", item);
 })($, window.TP);
 
 //list 
 (function($, tp){
-	tp.mix("list", {
+	var list = {
+		init : function (item, done) {
+			list.controller.getAll();
+		}
+	};
+
+	list.view = {
 		scroll: null,
-		inboxId : -1,
+		selectId : -1,
+		isSelect: function(item) {
+			return item.id == this.selectId || (this.selectId < 0 && item.deletable == 0);
+		},
 		onChangeItem: function() {
 			// 最后一步重新计算scroll 
 			if (this.scroll != null) {
 				this.scroll.refresh();
 			}
-		},
-		loadItems: function(elem, id) {
-			this.setTitle(elem);
-			// get task items 
-			TP.item.getAll(id);
-		},
-		select : function(elem) {
-			var itemElem = $(elem);
-			var id = itemElem.attr('rel');
-			$('li.task-list').removeClass('active');
-			itemElem.addClass('active');
-			this.loadItems(elem, id);
 		},
 		setTitle: function(elem) {
 			// set title 
@@ -279,6 +355,13 @@ div.right-side {
 				$('#sidebar-actions > a.delete').removeClass('disabled');
 			}
 		},
+		select : function(elem) {
+			var itemElem = $(elem);
+			var id = itemElem.attr('rel');
+			$('li.task-list').removeClass('active');
+			itemElem.addClass('active');
+			list.controller.loadItems(elem, id);
+		},
 		showCreateInput: function(show, submit) {
 			if (show) {
 				$('span#add-list-label').hide();
@@ -287,60 +370,12 @@ div.right-side {
 			} else {
 				if (submit) {
 					var title = $('input#addList').val();
-					this.createItem(title);
+					list.controller.createItem(title);
 				}
 				$('input#addList').hide();
 				$('input#addList').val('');
 				$('span#add-list-label').show();
 			}
-		},
-		isSelect: function(item) {
-			return item.id == this.inboxId || (this.inboxId < 0 && item.deletable == 0);
-		},
-		createItem: function(content, handler) {
-			var $this = this;
-			if (content && content != "") {
-				$.post("?r=list/create", {list_title: content}, function(reps){
-					if (reps.success) {
-						$this.addItem(reps.item, true);
-						if (handler && typeof(handler) == "function") {
-							handler(reps);
-						}
-					} else {
-						TP.fn.msg("添加列表失败");
-					}
-				},"json");
-				this.onChangeItem();
-			}
-		},
-		updateItem: function(elem, content, handler) {
-			var $this = this;
-			var id = $(elem).attr('rel');
-			if (content && content != "") {
-				$.post("?r=list/update", {id: id, list_title: content}, function(reps){
-					if (reps.success) {
-						if (handler && typeof(handler) == "function") {
-							handler(reps);
-							$this.onChangeItem();
-						}
-					} else {
-						TP.fn.msg("更新列表失败");
-					}
-				},"json");
-			}
-		},
-		deleteItem: function(listId, handler) {
-			var $this = this;
-			$.post("?r=list/delete", {id: listId}, function(reps){
-				if (reps.success) {
-					if (handler && typeof(handler) == "function") {
-						handler(reps);
-						$this.onChangeItem();
-					}
-				} else {
-					TP.fn.msg("删除列表失败");
-				}
-			},"json");
 		},
 		addItem : function (item, select) {
 			if (item.deletable != 0) {
@@ -353,7 +388,7 @@ div.right-side {
 			if (this.isSelect(item)) {
 				$('li.task-list').removeClass('active');
 				itemElem.addClass('active');
-				this.loadItems(itemElem, item.id);
+				list.controller.loadItems(itemElem, item.id);
 			}
 			itemElem.appendTo('ul.task_lists');
 			if (select) {
@@ -415,7 +450,8 @@ div.right-side {
 					var title = $(input).val();
 					var oldtitle = $(input).attr('oldvalue');
 					if (title != oldtitle) {
-						$this.updateItem($(elem).parent(), title, function(reps) {
+						var id = $(elem).parent().attr('rel');
+						list.controller.updateItem(id, title, function(reps) {
 							$(elem).find('span.title').text(reps.item.list_title);
 							$this.setTitle($(elem).parent());
 						});
@@ -424,20 +460,65 @@ div.right-side {
 				$('a.editor').remove();
 				$(elem).show();
 			}
+		}
+	};
+	list.controller = {
+		loadItems: function(elem, id) {
+			list.view.setTitle(elem);
+			// get task items 
+			TP.item.controller.getAll(id);
+			TP.item.view.onChangeItem();
 		},
-		getAll : function() {
-			var $this = this;
-			$('ul.task_lists').empty();
-			$.post("?r=list/all", {}, function(reps){
-				for (idx in reps) {
-					$this.addItem(reps[idx]);
+		createItem: function(content, handler) {
+			if (content && content != "") {
+				$.post("?r=list/create", {list_title: content}, function(reps){
+					if (reps.success) {
+						list.view.addItem(reps.item, true);
+						if (handler && typeof(handler) == "function") {
+							handler(reps);
+						}
+					} else {
+						TP.fn.msg("添加列表失败");
+					}
+				},"json");
+			}
+		},
+		updateItem: function(id, content, handler) {
+			if (content && content != "") {
+				$.post("?r=list/update", {id: id, list_title: content}, function(reps){
+					if (reps.success) {
+						if (handler && typeof(handler) == "function") {
+							handler(reps);
+							list.view.onChangeItem();
+						}
+					} else {
+						TP.fn.msg("更新列表失败");
+					}
+				},"json");
+			}
+		},
+		deleteItem: function(listId, handler) {
+			$.post("?r=list/delete", {id: listId}, function(reps){
+				if (reps.success) {
+					if (handler && typeof(handler) == "function") {
+						handler(reps);
+						list.view.onChangeItem();
+					}
+				} else {
+					TP.fn.msg("删除列表失败");
 				}
 			},"json");
 		},
-		init : function (item, done) {
-			this.getAll();
+		getAll : function() {
+			$('ul.task_lists').empty();
+			$.post("?r=list/all", {}, function(reps){
+				for (idx in reps) {
+					list.view.addItem(reps[idx]);
+				}
+			},"json");
 		}
-	});
+	};
+	tp.mix("list", list);
 })($, window.TP);
 
 $(function() {
@@ -447,7 +528,7 @@ $(function() {
 		'return': function(o) {
 			var content = $(o.currentTarget).val();
 			var listId = $('li.task-list.active').attr('rel');
-			TP.item.createItem(content, listId, function(reps){
+			TP.item.controller.createItem(content, listId, function(reps){
 				$(o.currentTarget).val("");
 			});
 		}
@@ -455,25 +536,25 @@ $(function() {
 
 	$('input#addList').keybind('keydown', {
 		'return': function(o) {
-			TP.list.showCreateInput(false, true);
+			TP.list.view.showCreateInput(false, true);
 		},
 		'escape': function(o){
-			TP.list.showCreateInput(false, false);
+			TP.list.view.showCreateInput(false, false);
 		}
 	});
 	
-	TP.item.scroll = new iScroll('scrollable-item', {hScroll:false, hScrollbar: false});
-	TP.list.scroll = new iScroll('scrollable-list', {hScroll:false, hScrollbar: false});
+	TP.item.view.scroll = new iScroll('scrollable-item', {hScroll:false, hScrollbar: false, onBeforeScrollStart: false});
+	TP.list.view.scroll = new iScroll('scrollable-list', {hScroll:false, hScrollbar: false, onBeforeScrollStart: false});
 	
 	// resize input box 
 	var w = $('li#input-width').width();
 	$('input#addItem').width(w-14);
 	$(document).click(function(e){
-		TP.list.showCreateInput(false, true);
-		TP.list.showUpdateInput(null, false, true);
+		TP.list.view.showCreateInput(false, true);
+		TP.list.view.showUpdateInput(null, false, true);
 	});
 	$('li.add-list').click(function(e){
-		TP.list.showCreateInput(true);
+		TP.list.view.showCreateInput(true);
 		e.stopPropagation();
 	    return false;
 	});
@@ -483,12 +564,12 @@ $(function() {
 			var listId = $(elem).attr('rel');
 			var title = $(elem).find('span.title').text();
 			if (confirm("该操作会永久删除列表["+ title +"]中所有任务,是否继续?")) {
-				TP.list.deleteItem(listId, function(reps) {
+				TP.list.controller.deleteItem(listId, function(reps) {
 					var select = $(elem).next('li.task-list');
 					if (select.size() <= 0) {
 						select = $(elem).prev('li.task-list');
 					}
-					TP.list.select(select);
+					TP.list.view.select(select);
 					$(elem).remove();
 				});
 			}
@@ -549,7 +630,7 @@ $(function() {
 						<ul class="todo-tasks task-items nav nav-tabs nav-stacked">
 						</ul>
 					</div>
-					<div class="recently-completed area" style="padding: 5px 0px 5px 0px;">
+					<div class="recently-completed area" style="padding: 5px 0px 10px 0px;">
 						<h3 class="heading completed" style="display: none;">
 							<text rel="label_completed_tasks_heading">
 								<i class="icon-list"></i>
@@ -561,11 +642,6 @@ $(function() {
 					</div>
 				</div>
 			</div>
-		</div>
-	</div>
-	<div class="right-side-container">
-		<div id="item-detail-container" class="right-side">
-			<span>XXXXXXXXXXXXXXXXXXXXXXXXXXX</span>
 		</div>
 	</div>
 </div>

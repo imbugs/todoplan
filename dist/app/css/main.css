@@ -81,3 +81,151 @@ div.scrollable {
 	z-index: 9;
 	overflow:auto;
 }
+
+/** common */
+a, a:hover {
+	text-decoration: none;
+	color: black;
+}
+div.area {
+	margin-bottom: 10px;
+}
+div.span8 {
+	padding: 40px 0px 0px 0px;
+}
+span.title {
+	margin-left: 5px;
+}
+input.input-item-editor {
+	width: 420px;
+}
+/** logo */
+div.span3 h1 {
+	height: 38px;
+	line-height: 38px;
+	min-height: 38px;
+	text-align: center;
+	padding: 0;
+	margin: 0;
+}
+/** add item */
+input#addItem {
+	border: 1px solid gray; 
+}
+/** task items */
+.done-tasks span.title {
+	text-decoration: line-through;
+}
+.task-checkbox {
+	cursor: pointer;
+	width: 18px;
+	height: 18px;
+}
+.task-edit-title {
+	float: right;
+	padding-top: 2px;
+}
+.task-items {
+	padding: 0;
+}
+div#scrollable-item {
+	top: 90px;
+	bottom: 50px;
+	width:100%;
+}
+.nav-tabs.nav-stacked > li:last-child > a.item-title.expand {
+	-webkit-border-bottom-right-radius: 0px;
+	border-bottom-right-radius: 0px;
+	-webkit-border-bottom-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+	-moz-border-radius-bottomright: 0px;
+	-moz-border-radius-bottomleft: 0px;
+}
+a.item-title.expand {
+	background-color: #EEE;
+}
+
+div.item-detail {
+	border-right: solid 1px #CCC;
+	border-bottom: solid 1px #CCC;
+	border-left: solid 1px #CCC;
+	-webkit-border-radius: 0px 0px 15px 15px;
+	-moz-border-radius: 0px 0px 15px 15px;
+	border-radius: 0px 0px 15px 15px;
+	padding: 5px 15px 5px 15px;
+	
+}
+div.note {
+	background: #FAF9F0;
+	background-image: -webkit-linear-gradient(#DEE2D0 1px,transparent 1px);
+	background-image: -moz-linear-gradient(top,#DEE2D0 1px,transparent 1px);
+	background-image: -ms-linear-gradient(top,#DEE2D0 1px,transparent 2px);
+	background-size: 100% 26px;
+	font-size: 13px;
+	line-height: 26px;
+	/* padding control text vertical position*/
+	padding: 6px 15px;
+	-webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1),inset 0 1px 0 #F8F5DB;
+	-moz-box-shadow: 0 2px 3px rgba(0,0,0,0.1),inset 0 1px 0 #f8f5db;
+	-ms-box-shadow: 0 2px 3px rgba(0,0,0,0.1),inset 0 1px 0 #f8f5db;
+	-o-box-shadow: 0 2px 3px rgba(0,0,0,0.1),inset 0 1px 0 #f8f5db;
+	box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1),inset 0 1px 0 #F8F5DB;
+}
+div.note textarea.expanding {
+	margin-bottom: 5px;
+	padding: 0px;
+	background: transparent;
+	border: none;
+	font-family: "Helvetica Neue","Helvetica",Arial,sans-serif;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+	font-size: 13px;
+	line-height: 26px;
+	overflow: hidden;
+	overflow-y:visible;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	resize: none;
+	outline: none;
+}
+div.note  textarea {
+	border-color: none;
+	outline: none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+div.note  textarea:focus {
+	border-color: none;
+	outline: none;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+	box-shadow: none;
+}
+/** list items */
+input.update {
+	margin: 0;
+	padding: 0px 5px 0px 5px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+div#scrollable-list {
+	top: 38px;
+	bottom: 70px;
+	width: 23.6%;
+	*width: 23.6%;
+}
+/** sidebar actions */
+div#sidebar-actions {
+	position: absolute;
+	margin-left: -10px;
+	padding: 8px 0px 8px 10px;
+	bottom: 30px;
+	height: 40px;
+	min-height: 40px;
+	max-height: 40px;
+	width: 23.6%;
+	*width: 23.6%;
+}

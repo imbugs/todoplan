@@ -12,6 +12,9 @@ class ItemController extends Controller
 			'create'=>array(
 				'class'=>'application.controllers.task.item.CreateAction'
 			),
+			'update'=>array(
+				'class'=>'application.controllers.task.item.UpdateAction'
+			),
 			'delete'=>array(
 				'class'=>'application.controllers.task.item.DeleteAction',
 			),

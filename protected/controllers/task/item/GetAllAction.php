@@ -8,7 +8,7 @@ class GetAllAction extends CAction
 		$list_id = Yii::app()->getRequest()->getParam("list_id", "-1");
 		$done = Yii::app()->getRequest()->getParam("done", "false");
 		$criteria = new CDbCriteria();
-		$criteria->select='id, list_id, title, starred';  // 只选择 'title' 列
+		$criteria->select='id, list_id, title, content, starred';  // 只选择 'title' 列
 		$criteria->condition="list_id='{$list_id}'";
 		$criteria->addCondition("done={$done}");
 

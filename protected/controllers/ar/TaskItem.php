@@ -45,7 +45,7 @@ class TaskItem extends CActiveRecord
 	}
 
 	public function copy() {
-		$colNames = array("id", "list_id", "title", "starred", "done");
+		$colNames = array("id", "list_id", "title", "content", "starred", "done");
 			
 		$to = new stdClass();
 		foreach ($colNames as $col) {
