@@ -7,7 +7,7 @@
 // CWebApplication properties can be configured here.
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'Todo Plan',
+	'name'=>'TodoPlan',
 	// language
 	'language' => 'zh_cn',
 	// preloading 'log' component
@@ -38,7 +38,7 @@ return array(
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
-            'loginUrl'=>array('site/login')
+            'loginUrl'=>array('user/login')
 		),
 		// uncomment the following to enable URLs in path-format
 		/*

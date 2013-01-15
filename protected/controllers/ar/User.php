@@ -24,4 +24,15 @@ class User extends CActiveRecord
 		}
 		return true;
 	}
+	
+	public function copy() {
+		$colNames = array("username", "password", "email");
+			
+		$to = new stdClass();
+		foreach ($colNames as $col) {
+			$to->$col = $this->$col;
+		}
+			
+		return $to;
+	}
 }

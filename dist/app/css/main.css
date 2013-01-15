@@ -83,6 +83,9 @@ div.scrollable {
 }
 
 /** common */
+div.container-fluid {
+	padding-left: 0px;
+}
 a, a:hover {
 	text-decoration: none;
 	color: black;
@@ -110,15 +113,6 @@ span.title {
 }
 input.input-item-editor {
 	width: 420px;
-}
-/** logo */
-div.span3 h1 {
-	height: 38px;
-	line-height: 38px;
-	min-height: 38px;
-	text-align: center;
-	padding: 0;
-	margin: 0;
 }
 /** add item */
 input#addItem {
@@ -224,20 +218,20 @@ input.update {
 	border-radius: 3px;
 }
 div#scrollable-list {
-	top: 38px;
-	bottom: 70px;
+	top: 40px;
+	bottom: 75px;
+	padding-top: 5px;
 	width: 23.6%;
 	*width: 23.6%;
 }
 /** sidebar actions */
 div#sidebar-actions {
 	position: absolute;
-	margin-left: -10px;
-	padding: 8px 0px 8px 10px;
+	margin-left: 0px;
+	padding: 8px 0px 8px 18px;
 	bottom: 30px;
 	height: 40px;
 	min-height: 40px;
 	max-height: 40px;
-	width: 23.6%;
-	*width: 23.6%;
+	background-color: #F0F0F0;
 }

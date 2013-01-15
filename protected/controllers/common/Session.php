@@ -12,5 +12,5 @@ class Session {
 			}
 		}
 		return $useId;
-	}	
+	}
 }

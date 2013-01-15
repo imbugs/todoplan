@@ -1,6 +1,20 @@
 <?php
 class ItemController extends Controller
 {
+	public function filters() {
+		return array(
+            'accessControl',
+        );
+	}
+	
+	public function accessRules() {
+        return array(
+            array('deny',  // deny all guests
+				'users'=>array('?')
+			)
+        );
+    }
+    
 	/**
 	 * Declares class-based actions.
 	 */

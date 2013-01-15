@@ -6,16 +6,14 @@ require_once(Yii::app()->basePath . "/controllers/ar/User.php");
  * It contains the authentication method that checks if the provided
  * data can identity the user.
  */
-class UserIdentity extends CUserIdentity
-{
+class UserIdentity extends CUserIdentity {
 	private $_id;
 	
 	/**
 	 * md5 password
 	 * @see CUserIdentity::authenticate()
 	 */
-    public function authenticate()
-    {
+    public function authenticate() {
         $record = User::model()->findByAttributes(array('username' => $this->username));
         if($record === null) {
             $this->errorCode = self::ERROR_USERNAME_INVALID;
@@ -28,8 +26,7 @@ class UserIdentity extends CUserIdentity
         return $this->errorCode;
     }
  
-    public function getId()
-    {
+    public function getId() {
         return $this->_id;
     }
 }

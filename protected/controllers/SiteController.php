@@ -1,51 +1,66 @@
 <?php
-class SiteController extends Controller
-{
+Yii::import('application.controllers.user.UserAction');
+
+class SiteController extends Controller {
 	/**
 	 * Declares class-based actions.
 	 */
-	public function actions()
-	{
+	public function actions() {
 		return array();
 	}
 
+	public function filters() {
+		return array(
+            'accessControl',
+        );
+	}
+	
+	public function accessRules() {
+        return array(
+            array('deny',  // deny all guests
+            	'actions'=>array('index'),
+				'users'=>array('?')
+			),
+			array('allow',
+				'users'=>array('*')
+			)
+        );
+    }
+    
 	/**
 	 * This is the default 'index' action that is invoked
 	 * when an action is not explicitly requested by users.
 	 */
-	public function actionIndex()
-	{
+	public function actionIndex() {
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
-		Session::userId($this);
-		$this->render('index');
+		$userId = Session::userId();
+		$userAction = new UserAction;
+		$userInfo = $userAction->getUserById($userId);
+		$this->render('index', array("userInfo" => $userInfo));
 	}
 
 	/**
 	 * This is the action to handle external exceptions.
 	 */
-	public function actionError()
-	{
-		if($error=Yii::app()->errorHandler->error)
-		{
-			if(Yii::app()->request->isAjaxRequest)
+	public function actionError() {
+		if($error=Yii::app()->errorHandler->error) {
+			if(Yii::app()->request->isAjaxRequest) {
 				echo $error['message'];
-			else
+			} else {
 				$this->render('error', $error);
+			}
 		}
 	}
 
 	/**
 	 * Displays the contact page
 	 */
-	public function actionContact()
-	{
+	public function actionContact() {
 		$model=new ContactForm;
-		if(isset($_POST['ContactForm']))
-		{
+		if(isset($_POST['ContactForm'])) {
 			$model->attributes=$_POST['ContactForm'];
-			if($model->validate())
-			{
+			if($model->validate()) {
 				$name='=?UTF-8?B?'.base64_encode($model->name).'?=';
 				$subject='=?UTF-8?B?'.base64_encode($model->subject).'?=';
 				$headers="From: $name <{$model->email}>\r\n".
@@ -59,55 +74,5 @@ class SiteController extends Controller
 			}
 		}
 		$this->render('contact',array('model'=>$model));
-	}
-
-	/**
-	 * Displays the login page
-	 */
-	public function actionLogin()
-	{
-		$model=new LoginForm;
-
-		// if it is ajax validation request
-		if(isset($_POST['ajax']) && $_POST['ajax']==='login-form')
-		{
-			echo CActiveForm::validate($model);
-			Yii::app()->end();
-		}
-
-		// collect user input data
-		if(isset($_POST['LoginForm']))
-		{
-			$model->attributes=$_POST['LoginForm'];
-			// validate user input and redirect to the previous page if valid
-			if($model->validate() && $model->login()) {
-				$this->redirect(Yii::app()->user->returnUrl);
-			}
-		}
-		// display the login form
-		$this->render('login',array('model'=>$model));
-	}
-
-	public function actionSignup() {
-		$model = new SignupForm;
-		// collect user input data
-		if(isset($_POST['SignupForm']))
-		{
-			$model->attributes=$_POST['SignupForm'];
-			// validate user input and redirect to the previous page if valid
-			if($model->validate() && $model->signup()) {
-				$this->redirect(Yii::app()->user->returnUrl);
-			}
-		}
-		// display the login form
-		$this->render('signup',array('model'=>$model));
-	}
-	/**
-	 * Logs out the current user and redirect to homepage.
-	 */
-	public function actionLogout()
-	{
-		Yii::app()->user->logout();
-		$this->redirect(Yii::app()->homeUrl);
 	}
 }

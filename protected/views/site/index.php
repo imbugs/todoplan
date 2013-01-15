@@ -3,10 +3,6 @@
 
 $this->pageTitle=Yii::app()->name;
 ?>
-<style>
-<!--
--->
-</style>
 <script id="tmpl-task-item" type="text/x-jquery-tmpl">
 <li class="task-item" rel="${id}">
 	<a href="#task/${id}" class="item-title" data-target="#item_content_${id}">
@@ -65,6 +61,24 @@ $this->pageTitle=Yii::app()->name;
 		fn : {
 			msg : function (m) {
 				alert(m);
+			},
+			ajaxForm: function(form, handler) {
+				$(form).live('submit', function(event) {
+				    var $form = $(this);
+				    $.ajax({
+				        type: $form.attr('method'),
+				        url: $form.attr('action'),
+				        data: $form.serialize(),
+				        dataType: 'json',
+				        success: function(data, status) {
+				        	if (handler && typeof(handler) == "function") {
+				        		handler.call($form, data, status);
+							}
+				        }
+				    });
+
+				    event.preventDefault();
+				});
 			}
 		},
 		mix : function (name, object, ov) {
@@ -521,6 +535,17 @@ $this->pageTitle=Yii::app()->name;
 	tp.mix("list", list);
 })($, window.TP);
 
+(function($, tp) {
+	tp.mix("app", {
+		closeSettings : function() {
+			$('div#settings').modal('hide');
+			$('div#change-result').html('');
+		},
+		search : function() {
+			
+		}
+	});
+})($, window.TP);
 $(function() {
 	TP.list.init();
 	
@@ -575,18 +600,93 @@ $(function() {
 			}
 		}
 	});
+
+	TP.fn.ajaxForm($('form[data-async]'), function(data, status) {
+		var $form = $(this);
+		var target = $form.attr('data-target');
+		if (data.success) {
+			$form.find('input[type="password"]').each(function() {
+				$(this).val('');
+			});
+			$(target).html('<div class="alert alert-success">' + data.error_msg + '</div>');
+		} else {
+			$(target).html('<div class="alert alert-error">' + data.error_msg + '</div>');
+		}
+	});
 });
 //-->
 </script>
 
+<style>
+<!--
+div#toolbar {
+	background-color: #F0F0F0;
+	padding-left: 18px;
+}
+div#toolbar img.avatar{
+	margin-top: 3px;
+}
+div#toolbar a#search {
+	float: right;
+	margin-top: 12px;
+	margin-right: 12px;
+}
+/** to make the anchor tag larger than the child image*/
+div#toolbar a#user {
+	display:inline-block;
+}
+
+div#toolbar div.dropdown {
+	display: inline;
+	padding: 0;
+	margin: 0;
+}
+/** logo */
+div#toolbar div#logo {
+	display: inline;
+	font-size: 24px;
+	text-align: center;
+	padding: 0;
+	margin: 0;
+}
+/** settings */
+.form-horizontal .info-label {
+	float: left;
+	width: 160px;
+	text-align: right;
+	color: #888;
+}
+-->
+</style>
 <div class="container-fluid height100">
 	<div class="row-fluid height100">
 		<div class="lists span3">
-			<h1>
-				<i><?php echo CHtml::encode(Yii::app()->name); ?></i>
-			</h1>
+			<div id="toolbar">
+				<div class="dropdown">
+					<a href="#/me" id="user" class="dropdown-toggle" data-toggle="dropdown" data-target="#">
+						<span></span>
+						<img class="avatar" src="dist/app/images/users/32.png"/>
+					</a>
+					<ul class="dropdown-menu" role="menu">
+						<li><a tabindex="-1" href="#settings" data-toggle="modal">设置</a></li>
+                        <li class="divider"></li>
+                        <li><a tabindex="-1" href="<?php echo Config::getUrl('logoutUrl');?>">退出</a></li>
+                      </ul>
+				</div>
+				<div id="logo">
+					<a class="button">
+						<span class="logo">
+							<img src="<?php echo Config::getInstance()->logo ?>">
+						</span>
+					</a>
+					<input search-query=>
+				</div>
+				<a href="#/search" id="search">
+					<i class="icon-search"></i>
+				</a>
+			</div>
 			<div id="scrollable-list" class="scrollable">
-					<div class="scroller">
+					<div class="scroller" style="padding: 5px 0px 10px 0px;">
 						<ul class="task_lists nav nav-pills nav-stacked">
 				        </ul>
 				        <ul class="nav nav-pills nav-stacked">
@@ -606,7 +706,9 @@ $(function() {
 	        	<a class="delete">
 	        		<span class="icon detail-trash"></span>
 	        	</a>
-	        	<a class="settings"><span class="icon settings"></span></a>
+	        	<a class="settings">
+	        		<span class="icon settings"></span>
+	        	</a>
 	        </div>
 		</div>
 		<div style="width: 1px; background-color: gray; float: left" class="height100"></div>
@@ -642,6 +744,71 @@ $(function() {
 					</div>
 				</div>
 			</div>
+		</div>
+	</div>
+	<div id="settings" class="modal hide fade">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			<h3>设置</h3>
+		</div>
+		<div class="modal-body">
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#profiles" data-toggle="tab">个人信息</a></li>
+				<li><a href="#changepasswd" data-toggle="tab">修改密码</a></li>
+			</ul>
+			<div class="tab-content">
+				<div class="tab-pane active" id="profiles">
+					<div class="form-horizontal">
+					    <div class="control-group">
+					        <div class="info-label">用户名</div>
+					        <div class="controls">
+					        	<?php echo $userInfo->username;?>
+					        </div>
+					    </div>
+					    <div class="control-group">
+					        <div class="info-label">电子邮件</div>
+					        <div class="controls">
+					        	<?php echo $userInfo->email;?>
+					        </div>
+					    </div>
+					</div>
+				</div>
+				<div class="tab-pane" id="changepasswd">
+					<div id="change-result"></div>
+					<form class="form-horizontal" data-async action="?r=user/changepasswd" data-target="#change-result" method="post">
+					    <input type="hidden" name="username" value="<?php echo $userInfo->username;?>">
+					    <div class="control-group">
+					        <label class="control-label" for="currentPasswd">当前密码</label>
+					        <div class="controls">
+					        	<input type="password" id="currentPasswd" name="currentPasswd" placeholder="当前密码">
+					        </div>
+					    </div>
+					    <div class="control-group">
+					        <label class="control-label" for="newPasswd">新密码</label>
+					        <div class="controls">
+					        	<input type="password" id="newPasswd" name="newPasswd" placeholder="新密码">
+					        </div>
+					    </div>
+					    <div class="control-group">
+					        <label class="control-label" for="verifyPasswd">确认密码</label>
+					        <div class="controls">
+					        	<input type="password" id="verifyPasswd" name="verifyPasswd" placeholder="确认密码">
+					        </div>
+					    </div>
+					    <div class="control-group">
+					   		<div class="controls">
+						    	<button id="changePassword" type="submit" class="btn btn-primary">保存</button>
+						    	<span style="margin-left: 20px;">
+									<a href="?r=site/forget" class="default">忘记密码？</a>
+								</span>
+						    </div>
+					    </div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer">
+			<a href="#" class="btn" onclick="javascript:window.TP.app.closeSettings();">关闭</a>
 		</div>
 	</div>
 </div>

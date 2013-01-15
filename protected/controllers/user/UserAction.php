@@ -1,12 +1,21 @@
 <?php
 class UserAction {
+	/** 
+	 * 根据id获取User信息 
+	 */
+	public function getUserById($id) {
+		$record = User::model()->findByPk($id);
+		$user = $record->copy();
+        return $user;
+	}
 	/**
 	 * 根据username获取User信息 
 	 * @param string $username
 	 */
-	public function getUser($username) {
+	public function getUserByName($username) {
 		$record = User::model()->findByAttributes(array('username' => $username));
-        return $record;
+		$user = $record->copy();
+        return $user;
 	}
 	/**
 	 * 创建User
