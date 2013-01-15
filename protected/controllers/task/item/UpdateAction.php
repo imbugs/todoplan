@@ -1,5 +1,5 @@
 <?php
-require_once(Yii::app()->basePath . "/controllers/task/item/AbstractUpdateAction.php");
+Yii::import('application.controllers.task.item.AbstractUpdateAction');
 
 class UpdateAction extends AbstractUpdateAction
 {

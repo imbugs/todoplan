@@ -1,6 +1,4 @@
 <?php
-require_once(Yii::app()->basePath . "/controllers/ar/TaskItem.php");
-
 class GetAction extends CAction
 {
 	public function run()

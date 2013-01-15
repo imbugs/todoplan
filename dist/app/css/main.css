@@ -87,6 +87,18 @@ a, a:hover {
 	text-decoration: none;
 	color: black;
 }
+div.login-form {
+	font-size: 14px;
+}
+div.submit {
+	margin-top: 5px;
+}
+a.default {
+	color: #06C;
+}
+a.default:HOVER {
+	text-decoration: underline;
+}
 div.area {
 	margin-bottom: 10px;
 }

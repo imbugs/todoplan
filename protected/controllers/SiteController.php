@@ -1,6 +1,4 @@
 <?php
-require_once(Yii::app()->basePath . "/controllers/ar/TaskItem.php");
-
 class SiteController extends Controller
 {
 	/**
@@ -19,8 +17,8 @@ class SiteController extends Controller
 	{
 		// renders the view file 'protected/views/site/index.php'
 		// using the default layout 'protected/views/layouts/main.php'
-		$items = 0;
-		$this->render('index', array('taskItems' => $items));
+		Session::userId($this);
+		$this->render('index');
 	}
 
 	/**
@@ -82,13 +80,28 @@ class SiteController extends Controller
 		{
 			$model->attributes=$_POST['LoginForm'];
 			// validate user input and redirect to the previous page if valid
-			if($model->validate() && $model->login())
+			if($model->validate() && $model->login()) {
 				$this->redirect(Yii::app()->user->returnUrl);
+			}
 		}
 		// display the login form
 		$this->render('login',array('model'=>$model));
 	}
 
+	public function actionSignup() {
+		$model = new SignupForm;
+		// collect user input data
+		if(isset($_POST['SignupForm']))
+		{
+			$model->attributes=$_POST['SignupForm'];
+			// validate user input and redirect to the previous page if valid
+			if($model->validate() && $model->signup()) {
+				$this->redirect(Yii::app()->user->returnUrl);
+			}
+		}
+		// display the login form
+		$this->render('signup',array('model'=>$model));
+	}
 	/**
 	 * Logs out the current user and redirect to homepage.
 	 */

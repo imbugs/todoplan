@@ -92,7 +92,7 @@ CREATE TABLE `user` (
   `email` varchar(45) DEFAULT NULL,
   `login_type` varchar(16) NOT NULL DEFAULT 'local' COMMENT 'login from local site or out website',
   `gmt_update` datetime NOT NULL,
-  `gmt_crate` datetime NOT NULL,
+  `gmt_create` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -100,6 +100,7 @@ CREATE TABLE `user` (
 --
 -- Dumping data for table `user`
 --
+INSERT INTO `user` (`id`, `username`, `password`, `email`, `status`, `login_type`, `gmt_update`, `gmt_create`) VALUES (1, 'admin', 'ad7402c28e2f05b4bdc4075b78b2296b', 'imbugs@126.com', 'active', 'local', now(), now());
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;

@@ -1,6 +1,4 @@
 <?php
-require_once(Yii::app()->basePath . "/controllers/ar/TaskList.php");
-
 abstract class AbstractUpdateAction extends CAction
 {
 	public function run()
@@ -11,7 +9,8 @@ abstract class AbstractUpdateAction extends CAction
 		$result->success = false;
 
 		if (isset($taskList)) {
-			if($taskList->deletable) {
+			$userId = Session::userId();
+			if($taskList->deletable && $taskList->owner_id == $userId) {
 				$this->update($taskList);
 				$taskList->gmt_update = new CDbExpression('now()');
 				

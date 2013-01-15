@@ -1,12 +1,10 @@
 <?php
-require_once(Yii::app()->basePath . "/controllers/ar/TaskList.php");
-
 class CreateAction extends CAction
 {
 	public function run()
 	{
 		$taskList = new TaskList();
-		$taskList->owner_id = "1";
+		$taskList->owner_id = Session::userId($this);
 		$taskList->list_title = Yii::app()->getRequest()->getParam("list_title", "");
 		$taskList->gmt_update = new CDbExpression('now()');
 		$taskList->gmt_create = new CDbExpression('now()');

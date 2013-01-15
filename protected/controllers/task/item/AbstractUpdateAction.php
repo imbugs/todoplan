@@ -1,6 +1,4 @@
 <?php
-require_once(Yii::app()->basePath . "/controllers/ar/TaskItem.php");
-
 abstract class AbstractUpdateAction extends CAction
 {
 	public function run()

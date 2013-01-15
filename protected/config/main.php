@@ -8,7 +8,8 @@
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'Todo Plan',
-
+	// language
+	'language' => 'zh_cn',
 	// preloading 'log' component
 	'preload'=>array('log'),
 
@@ -16,6 +17,8 @@ return array(
 	'import'=>array(
 		'application.models.*',
 		'application.components.*',
+		'application.controllers.common.*',
+		'application.controllers.ar.*'
 	),
 
 	'modules'=>array(
@@ -35,6 +38,7 @@ return array(
 		'user'=>array(
 			// enable cookie-based authentication
 			'allowAutoLogin'=>true,
+            'loginUrl'=>array('site/login')
 		),
 		// uncomment the following to enable URLs in path-format
 		/*

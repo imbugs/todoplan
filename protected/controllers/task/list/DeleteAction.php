@@ -1,7 +1,4 @@
 <?php
-require_once(Yii::app()->basePath . "/controllers/ar/TaskList.php");
-require_once(Yii::app()->basePath . "/controllers/ar/TaskItem.php");
-
 class DeleteAction extends CAction
 {
 	public function run()
@@ -12,7 +9,8 @@ class DeleteAction extends CAction
 		$result = new stdClass();
 		$result->success = false;
 		if (isset($taskList)) {
-			if($taskList->deletable) {
+			$userId = Session::userId();
+			if($taskList->deletable && $taskList->owner_id == $userId) {
 				// delete task item
 				$criteria = new CDbCriteria;
 				$criteria->condition = "list_id='{$id}'";

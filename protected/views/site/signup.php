@@ -3,7 +3,7 @@
 /* @var $model LoginForm */
 /* @var $form CActiveForm  */
 
-$this->pageTitle=Yii::app()->name . ' - 登录';
+$this->pageTitle=Yii::app()->name . ' - 注册';
 ?>
 
 <style>
@@ -17,7 +17,7 @@ $this->pageTitle=Yii::app()->name . ' - 登录';
 	),
 )); ?>
 	<div class="login-form">
-		<h4>登录</h4>
+		<h4>注册新用户</h4>
 		<div>
 			<?php echo $form->error($model,'errorMsg', array('class' => 'alert alert-error')); ?>
 		</div>
@@ -26,19 +26,17 @@ $this->pageTitle=Yii::app()->name . ' - 登录';
 			<?php echo $form->textField($model,'username', array('placeholder' => '用户名')); ?>
 	    </div>
 	    <div class="input-prepend">
+			<span class="add-on"><i class="icon-envelope"></i></span>
+			<?php echo $form->textField($model,'email', array('placeholder' => '电子邮件地址')); ?>
+	    </div>
+	    <div class="input-prepend">
 			<span class="add-on"><i class="icon-lock"></i></span>
 			<?php echo $form->passwordField($model,'password', array('placeholder' => '密码')); ?>
 	    </div>
-	    <div class="rememberMe">
-	    	<label class="checkbox">
-	    		<?php echo $form->checkBox($model,'rememberMe'); ?>
-	    		下次自动登录
-		    </label>
-		</div>
-		<div class="submit">
-			<?php echo CHtml::submitButton('登录', array("class"=>"btn btn-info")); ?>
+		<div class="submit" style="margin-top: 10px;">
+			<?php echo CHtml::submitButton('立即注册', array("class"=>"btn btn-warning")); ?>
 			<span style="margin-left: 20px;">
-				还没有账号？<a href="?r=site/signup" class="default">立即注册</a>！
+				已有帐号，<a href="?r=site/login" class="default">直接登录</a>»
 			</span>
 		</div>
 	</div>
