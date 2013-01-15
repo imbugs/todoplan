@@ -656,6 +656,10 @@ div#toolbar div#logo {
 	text-align: right;
 	color: #888;
 }
+div.tab-inner div.warning{
+	width: 300px;
+	margin-left: 100px;
+}
 -->
 </style>
 <div class="container-fluid height100">
@@ -679,7 +683,6 @@ div#toolbar div#logo {
 							<img src="<?php echo Config::getInstance()->logo ?>">
 						</span>
 					</a>
-					<input search-query=>
 				</div>
 				<a href="#/search" id="search">
 					<i class="icon-search"></i>
@@ -774,36 +777,38 @@ div#toolbar div#logo {
 					</div>
 				</div>
 				<div class="tab-pane" id="changepasswd">
-					<div id="change-result"></div>
-					<form class="form-horizontal" data-async action="?r=user/changepasswd" data-target="#change-result" method="post">
-					    <input type="hidden" name="username" value="<?php echo $userInfo->username;?>">
-					    <div class="control-group">
-					        <label class="control-label" for="currentPasswd">当前密码</label>
-					        <div class="controls">
-					        	<input type="password" id="currentPasswd" name="currentPasswd" placeholder="当前密码">
-					        </div>
-					    </div>
-					    <div class="control-group">
-					        <label class="control-label" for="newPasswd">新密码</label>
-					        <div class="controls">
-					        	<input type="password" id="newPasswd" name="newPasswd" placeholder="新密码">
-					        </div>
-					    </div>
-					    <div class="control-group">
-					        <label class="control-label" for="verifyPasswd">确认密码</label>
-					        <div class="controls">
-					        	<input type="password" id="verifyPasswd" name="verifyPasswd" placeholder="确认密码">
-					        </div>
-					    </div>
-					    <div class="control-group">
-					   		<div class="controls">
-						    	<button id="changePassword" type="submit" class="btn btn-primary">保存</button>
-						    	<span style="margin-left: 20px;">
-									<a href="?r=site/forget" class="default">忘记密码？</a>
-								</span>
+					<div class="tab-inner">
+						<div id="change-result" class="warning"></div>
+						<form class="form-horizontal" data-async action="?r=user/changepasswd" data-target="#change-result" method="post">
+						    <input type="hidden" name="username" value="<?php echo $userInfo->username;?>">
+						    <div class="control-group">
+						        <label class="control-label" for="currentPasswd">当前密码</label>
+						        <div class="controls">
+						        	<input type="password" id="currentPasswd" name="currentPasswd" placeholder="当前密码">
+						        </div>
 						    </div>
-					    </div>
-					</form>
+						    <div class="control-group">
+						        <label class="control-label" for="newPasswd">新密码</label>
+						        <div class="controls">
+						        	<input type="password" id="newPasswd" name="newPasswd" placeholder="新密码">
+						        </div>
+						    </div>
+						    <div class="control-group">
+						        <label class="control-label" for="verifyPasswd">确认密码</label>
+						        <div class="controls">
+						        	<input type="password" id="verifyPasswd" name="verifyPasswd" placeholder="确认密码">
+						        </div>
+						    </div>
+						    <div class="control-group">
+						   		<div class="controls">
+							    	<button id="changePassword" type="submit" class="btn btn-primary">保存</button>
+							    	<span style="margin-left: 100px;">
+										<a href="<?php echo Config::getUrl('forgetUrl');?>" class="default">忘记密码？</a>
+									</span>
+							    </div>
+						    </div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>

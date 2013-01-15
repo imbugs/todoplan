@@ -46,8 +46,12 @@ class SignupForm extends CFormModel {
 			$error = array_shift($errors);
 			$this->addError('errorMsg',$error[0]);
 		} else {
+			if(filter_var($this->email,FILTER_VALIDATE_EMAIL) === false) {
+				$this->addError('errorMsg',"电子邮件不合法");
+				return;
+			}
 			$userAction = new UserAction;
-			$result = $userAction->getUser($this->username);
+			$result = $userAction->getUserByName($this->username);
 			if ($result != null) {
 				$this->addError('errorMsg',"该用户名不可用");
 			}

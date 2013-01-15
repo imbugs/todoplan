@@ -31,6 +31,9 @@ class UserController extends Controller
 		);
 	}
 	
+	public function actionForget() {
+		$this->render('forget');
+	}
 	/**
 	 * Displays the login page
 	 */

@@ -235,3 +235,18 @@ div#sidebar-actions {
 	max-height: 40px;
 	background-color: #F0F0F0;
 }
+/** user login/logout/forget pages */
+div.form div.login-form {
+	width: 250px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 20%;
+}
+
+div.form div.login-form div.warning {
+	padding-right: 3px;
+}
+
+div.form div.login-form div.logo {
+	margin-bottom: 20px;
+}

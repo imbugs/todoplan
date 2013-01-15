@@ -17,8 +17,11 @@ $this->pageTitle=Yii::app()->name . ' - 登录';
 	),
 )); ?>
 	<div class="login-form">
-		<h4>登录</h4>
-		<div>
+		<div class="logo">
+			<img src="<?php echo Config::getInstance()->biglogo;?>"/>
+		</div>
+		<h2>登录</h2>
+		<div class="warning">
 			<?php echo $form->error($model,'errorMsg', array('class' => 'alert alert-error')); ?>
 		</div>
 		<div class="input-prepend">
@@ -33,6 +36,9 @@ $this->pageTitle=Yii::app()->name . ' - 登录';
 	    	<label class="checkbox">
 	    		<?php echo $form->checkBox($model,'rememberMe'); ?>
 	    		下次自动登录
+	    		<span style="margin-left: 50px;">
+					<a href="<?php echo Config::getUrl('forgetUrl');?>" class="default">忘记密码？</a>
+				</span>
 		    </label>
 		</div>
 		<div class="submit">

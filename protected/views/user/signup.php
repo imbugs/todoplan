@@ -17,8 +17,11 @@ $this->pageTitle=Yii::app()->name . ' - 注册';
 	),
 )); ?>
 	<div class="login-form">
-		<h4>注册新用户</h4>
-		<div>
+		<div class="logo">
+			<img src="<?php echo Config::getInstance()->biglogo;?>"/>
+		</div>
+		<h2>注册新用户</h2>
+		<div class="warning">
 			<?php echo $form->error($model,'errorMsg', array('class' => 'alert alert-error')); ?>
 		</div>
 		<div class="input-prepend">
