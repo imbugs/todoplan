@@ -65,7 +65,7 @@ class UserController extends Controller
 			$model->attributes=$_POST['SignupForm'];
 			// validate user input and redirect to the previous page if valid
 			if($model->validate() && $model->signup()) {
-				$this->redirect(Yii::app()->user->returnUrl);
+				$this->redirect(Yii::app()->homeUrl);
 			}
 		}
 		// display the login form

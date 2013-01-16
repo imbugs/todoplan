@@ -65,6 +65,21 @@ class SignupForm extends CFormModel {
 	public function signup() {
 		$userAction = new UserAction;
 		$result = $userAction->createUser($this);
+		$autoLogin = false;
+		if ($result->success) {
+			if($this->_identity===null) {
+				$this->_identity=new UserIdentity($this->username,$this->password);
+				$this->_identity->authenticate();
+				if($this->_identity->errorCode===UserIdentity::ERROR_NONE) {
+					// auto login after signup
+					$autoLogin = Yii::app()->user->login($this->_identity, 0);
+				}
+			}
+		}
+		if (!$autoLogin) {
+			// logout if already login not login auto
+			Yii::app()->user->logout();
+		}
 		return $result->success;
 	}
 }

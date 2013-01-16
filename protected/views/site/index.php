@@ -669,7 +669,7 @@ div.tab-inner div.warning{
 				<div class="dropdown">
 					<a href="#/me" id="user" class="dropdown-toggle" data-toggle="dropdown" data-target="#">
 						<span></span>
-						<img class="avatar" src="dist/app/images/users/32.png"/>
+						<img class="avatar" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/images/users/32.png"/>
 					</a>
 					<ul class="dropdown-menu" role="menu">
 						<li><a tabindex="-1" href="#settings" data-toggle="modal">设置</a></li>
