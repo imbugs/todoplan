@@ -13,8 +13,11 @@ class UserAction {
 	 * @param string $username
 	 */
 	public function getUserByName($username) {
+		$user = null;
 		$record = User::model()->findByAttributes(array('username' => $username));
-		$user = $record->copy();
+		if ($record != null) {
+			$user = $record->copy();
+		}
         return $user;
 	}
 	/**
