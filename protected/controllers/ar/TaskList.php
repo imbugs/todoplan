@@ -21,7 +21,20 @@ class TaskList extends CActiveRecord
 				return false;
 			}
 		}
-		return true;
+		return $this->checkOwner();
+	}
+	
+	public function checkOwner() {
+		$userId = Session::userId();
+		if (isset($this->owner_id) && $this->owner_id === $userId) {
+			return true;
+		}
+		$this->error_msg = "no permission to change the record.";
+		return false;
+	}
+	
+	public function beforeDelete() {
+		return $this->checkOwner();
 	}
 	
 	public function recently($limit = -1) {

@@ -22,7 +22,24 @@ class User extends CActiveRecord
 				return false;
 			}
 		}
-		return true;
+		return $this->checkOwner();
+	}
+	
+	public function checkOwner() {
+		if ($this->getIsNewRecord()) {
+			// insert, no owner
+			return true;
+		}
+		$userId = Session::userId();
+		if (isset($this->id) && $this->id === $userId) {
+			return true;
+		}
+		$this->error_msg = "no permission to change the record.";
+		return false;
+	}
+	
+	public function beforeDelete() {
+		return $this->checkOwner();
 	}
 	
 	public function copy() {

@@ -21,9 +21,31 @@ class TaskItem extends CActiveRecord
 				return false;
 			}
 		}
-		return true;
+		// check owner
+		return $this->checkOwner();
 	}
 
+	public function checkOwner() {
+		if (isset($this->list_id)) {
+			$taskList = TaskList::model()->findByPk($this->list_id);
+			if (isset($taskList)) {
+				$userId = Session::userId();
+				if (isset($taskList->owner_id) && $taskList->owner_id === $userId) {
+					return true;
+				} else {
+					$this->error_msg = "no permission to change the record..";
+				}
+			} else {
+				$this->error_msg = "can not find [{$this->tableName()}] by id [{$this->list_id}].";
+			}
+		}
+		return false;
+	}
+	
+	public function beforeDelete() {
+		return $this->checkOwner();
+	}
+	
 	public function recently($done = "false", $limit = -1) {
 		$order = 'sort_id, gmt_create ASC';
 		if ($done == "true") {

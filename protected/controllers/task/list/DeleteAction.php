@@ -10,7 +10,7 @@ class DeleteAction extends CAction
 		$result->success = false;
 		if (isset($taskList)) {
 			$userId = Session::userId();
-			if($taskList->deletable && $taskList->owner_id == $userId) {
+			if($taskList->deletable) {
 				// delete task item
 				$criteria = new CDbCriteria;
 				$criteria->condition = "list_id='{$id}'";

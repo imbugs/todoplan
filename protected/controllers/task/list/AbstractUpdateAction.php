@@ -10,7 +10,7 @@ abstract class AbstractUpdateAction extends CAction
 
 		if (isset($taskList)) {
 			$userId = Session::userId();
-			if($taskList->deletable && $taskList->owner_id == $userId) {
+			if($taskList->deletable) {
 				$this->update($taskList);
 				$taskList->gmt_update = new CDbExpression('now()');
 				
