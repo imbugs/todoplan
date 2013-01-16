@@ -10,7 +10,7 @@ class UserController extends Controller
 	public function accessRules() {
         return array(
             array('deny',  // deny all guests
-				'actions'=>array('changepasswd'),
+				'actions'=>array('changepasswd', 'active'),
 				'users'=>array('?')
 			),
 			array('allow',
@@ -71,6 +71,12 @@ class UserController extends Controller
 		// display the login form
 		$this->render('signup',array('model'=>$model));
 	}
+	
+	public function actionVerify() {
+		$model = null;
+		$this->render('verify',array('model'=>$model));
+	}
+	
 	/**
 	 * Logs out the current user and redirect to homepage.
 	 */
