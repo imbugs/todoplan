@@ -74,6 +74,7 @@ class UserController extends Controller
 	
 	public function actionVerify() {
 		$model = null;
+		EmailUtils::sendVerifyMail('imbugs@126.com');
 		$this->render('verify',array('model'=>$model));
 	}
 	

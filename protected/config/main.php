@@ -18,7 +18,8 @@ return array(
 		'application.models.*',
 		'application.components.*',
 		'application.controllers.common.*',
-		'application.controllers.ar.*'
+		'application.controllers.ar.*',
+		'ext.yii-mail.YiiMailMessage',
 	),
 
 	'modules'=>array(
@@ -40,6 +41,27 @@ return array(
 			'allowAutoLogin'=>true,
             'loginUrl'=>array('user/login')
 		),
+		'mail'=>array(
+	        'class' => 'ext.yii-mail.YiiMail',
+			'transportType' => 'php',
+			'viewPath' => 'application.views.mail',
+			'logging' => true,
+			'dryRun' => false
+	    ),
+		/*'mail'=>array(
+	        'class' => 'ext.yii-mail.YiiMail',
+			'transportType' => 'smtp',
+			'transportOptions' => array(
+		        'host' => 'smtp.126.com',
+		        'username' => 'todoplan@126.com',
+		        'password' => 'todoplan1w',
+		        'port' => '465',
+		        'encryption'=>'ssl',
+		    ),
+			'viewPath' => 'application.views.mail',
+			'logging' => true,
+			'dryRun' => false
+	    ),*/
 		// uncomment the following to enable URLs in path-format
 		/*
 		'urlManager'=>array(

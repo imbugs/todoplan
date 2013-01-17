@@ -2,7 +2,6 @@
 class User extends CActiveRecord
 {
 	var $error_msg = null;
-	
     public static function model($className=__CLASS__)
     {
         return parent::model($className);

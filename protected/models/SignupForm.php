@@ -55,6 +55,10 @@ class SignupForm extends CFormModel {
 			if ($result != null) {
 				$this->addError('errorMsg',"该用户名不可用");
 			}
+			$result = $userAction->getUserByEmail($this->email);
+			if ($result != null) {
+				$this->addError('errorMsg',"该电子邮件地址不可用");
+			}
 		}
 	}
 

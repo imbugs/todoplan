@@ -237,10 +237,12 @@ div#sidebar-actions {
 }
 /** user login/logout/forget pages */
 div.form div.login-form {
-	width: 250px;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 20%;
+	width: 260px;
+	height: 300px;
+	margin: -260px 0 0 -150px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
 }
 
 div.form div.login-form div.warning {
