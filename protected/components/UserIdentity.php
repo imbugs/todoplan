@@ -1,6 +1,4 @@
 <?php
-require_once(Yii::app()->basePath . "/controllers/ar/User.php");
-
 /**
  * UserIdentity represents the data needed to identity a user.
  * It contains the authentication method that checks if the provided
@@ -21,6 +19,8 @@ class UserIdentity extends CUserIdentity {
             $this->errorCode = self::ERROR_PASSWORD_INVALID;
         } else {
             $this->_id = $record->id;
+            $userInfo = $record->copy();
+            $this->setState("userinfo", $userInfo);
             $this->errorCode = self::ERROR_NONE;
         }
         return $this->errorCode;

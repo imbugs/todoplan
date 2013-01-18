@@ -75,9 +75,59 @@ class UserAction {
 		if ($user->save()) {
 			$result->success = true;
 			$result->error_msg = "";
+			if ($user->status == UserConstant::STATUS_TOVALID) {
+				$this->sendVerifyMail($user);
+			}
 		} else {
 			$result->error_msg = $taskList->error_msg;
 		}
 		return $result;
 	}
+	
+	// 发送验证Email
+	public function sendVerifyMail($user) {
+		$mail = VerifyMail::newRecord($user, UserConstant::VERIFY_VALID);
+		if (!isset($mail)) {
+			return false;
+		}
+		$subject = "TodoPlan账号激活";
+		$url = Yii::app()->createAbsoluteUrl('user/verify',array('emailActivationKey'=>$mail->code));
+		
+		$body = "感谢您注册TodoPlan网!<br/>
+		请马上打开以下链接，激活您的账号！<br/>
+		$url <br/>
+		请将该网址复制并粘贴至新的浏览器窗口中。<br/>
+		本邮件为系统自动发送，不需要回复";
+		
+		$result = EmailUtils::sendYiiMail($mail->email, $subject, $body);
+		return $result;
+	}
+	
+	// 发送重置密码Email
+	public function sendResetMail($user) {
+		$mail = VerifyMail::newRecord($user, UserConstant::VERIFY_RESET);
+		$subject = "TodoPlan账号密码找回";
+		$body = "http://xxxtest, 自动找回"; 
+		EmailUtils::sendYiiMail($to, $subject, $body);
+	}
+	
+	public function doVerifyMail($user, $code) {
+		// 删除过期数据
+		VerifyMail::deleteExpired();
+		$attributes  =array('username' => $user->username, 'email' => $user->email, 'code' => $code);
+		$count = VerifyMail::model()->deleteAllByAttributes($attributes);
+		if ($count > 0) {
+			// 更新用户状态
+			$record = User::model()->findByAttributes(array('username' => $user->username, 'email' => $user->email));
+			if ($record != null) {
+				$record->status = UserConstant::STATUS_ACTIVE;
+				if ($record->save()) {
+					return true;
+				}
+			}
+			return false;
+		} else {
+			return false;
+		}
+	} 
 }

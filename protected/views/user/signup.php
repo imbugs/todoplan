@@ -26,15 +26,15 @@ $this->pageTitle=Yii::app()->name . ' - 注册';
 		</div>
 		<div class="input-prepend">
 			<span class="add-on"><i class="icon-user"></i></span>
-			<?php echo $form->textField($model,'username', array('placeholder' => '用户名')); ?>
+			<input placeholder="用户名" name="SignupForm[username]" id="SignupForm_username" type="text" maxlength="12" required>
 	    </div>
 	    <div class="input-prepend">
 			<span class="add-on"><i class="icon-envelope"></i></span>
-			<?php echo $form->textField($model,'email', array('placeholder' => '电子邮件地址')); ?>
+			<input placeholder="电子邮件地址" name="SignupForm[email]" id="SignupForm_email" type="email" required>
 	    </div>
 	    <div class="input-prepend">
 			<span class="add-on"><i class="icon-lock"></i></span>
-			<?php echo $form->passwordField($model,'password', array('placeholder' => '密码')); ?>
+			<input placeholder="密码" name="SignupForm[password]" id="SignupForm_password" type="password" required>
 	    </div>
 		<div class="submit" style="margin-top: 10px;">
 			<?php echo CHtml::submitButton('立即注册', array("class"=>"btn btn-warning")); ?>

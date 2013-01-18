@@ -1,5 +1,4 @@
 <?php
-require_once(Yii::app()->basePath . "/controllers/user/UserAction.php");
 /**
  * LoginForm class.
  * LoginForm is the data structure for keeping
@@ -50,6 +49,8 @@ class SignupForm extends CFormModel {
 				$this->addError('errorMsg',"电子邮件不合法");
 				return;
 			}
+			// 删除没有认证的，以防乱注册
+			User::deleteUnverify();
 			$userAction = new UserAction;
 			$result = $userAction->getUserByName($this->username);
 			if ($result != null) {

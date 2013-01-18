@@ -19,6 +19,7 @@ return array(
 		'application.components.*',
 		'application.controllers.common.*',
 		'application.controllers.ar.*',
+		'application.controllers.user.UserAction',
 		'ext.yii-mail.YiiMailMessage',
 	),
 
@@ -41,14 +42,14 @@ return array(
 			'allowAutoLogin'=>true,
             'loginUrl'=>array('user/login')
 		),
-		'mail'=>array(
+		/*'mail'=>array(
 	        'class' => 'ext.yii-mail.YiiMail',
 			'transportType' => 'php',
 			'viewPath' => 'application.views.mail',
 			'logging' => true,
 			'dryRun' => false
-	    ),
-		/*'mail'=>array(
+	    ),*/
+		'mail'=>array(
 	        'class' => 'ext.yii-mail.YiiMail',
 			'transportType' => 'smtp',
 			'transportOptions' => array(
@@ -61,7 +62,7 @@ return array(
 			'viewPath' => 'application.views.mail',
 			'logging' => true,
 			'dryRun' => false
-	    ),*/
+	    ),
 		// uncomment the following to enable URLs in path-format
 		/*
 		'urlManager'=>array(
@@ -73,6 +74,10 @@ return array(
 			),
 		),
 		*/
+	    'clientScript' => array (
+		    'class' => 'ext.clientscript.PreloadClientScript',
+	    	'disableAssets' => true
+		),
 		'db'=>array(
 			'connectionString' => 'mysql:host=localhost;dbname=todoplan',
 			'emulatePrepare' => true,

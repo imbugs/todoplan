@@ -1,6 +1,4 @@
 <?php
-Yii::import('application.controllers.user.UserAction');
-
 class SiteController extends Controller {
 	/**
 	 * Declares class-based actions.
@@ -37,7 +35,11 @@ class SiteController extends Controller {
 		$userId = Session::userId();
 		$userAction = new UserAction;
 		$userInfo = $userAction->getUserById($userId);
-		$this->render('index', array("userInfo" => $userInfo));
+		if (isset($userInfo->status) && $userInfo->status == UserConstant::STATUS_ACTIVE) {
+			$this->render('index', array("userInfo" => $userInfo));
+		} else {
+			$this->redirect(Config::getUrl('verifyUrl'));
+		}
 	}
 
 	/**

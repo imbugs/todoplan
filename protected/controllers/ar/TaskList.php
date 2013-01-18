@@ -1,4 +1,8 @@
 <?php
+/**
+ * 任务列表
+ * @author tinghe
+ */
 class TaskList extends CActiveRecord
 {
 	var $error_msg = null;

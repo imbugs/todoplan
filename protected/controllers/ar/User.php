@@ -1,4 +1,8 @@
 <?php
+/**
+ * 用户
+ * @author tinghe
+ */
 class User extends CActiveRecord
 {
 	var $error_msg = null;
@@ -42,7 +46,7 @@ class User extends CActiveRecord
 	}
 	
 	public function copy() {
-		$colNames = array("username", "password", "email");
+		$colNames = array("username", "status", "password", "email");
 			
 		$to = new stdClass();
 		foreach ($colNames as $col) {
@@ -50,5 +54,15 @@ class User extends CActiveRecord
 		}
 			
 		return $to;
+	}
+	
+	// 删除早于maxVerifyTime且没有验证的用户
+	public static function deleteUnverify() {
+		$maxVerifyTime = Config::getInstance()->maxVerifyTime;
+		$unverify = UserConstant::STATUS_TOVALID;
+		$criteria = new CDbCriteria;
+		$criteria->condition = "gmt_update < date_add(now(), interval -{$maxVerifyTime} second) and status = '{$unverify}'";
+		$count = User::model()->deleteAll($criteria);
+		return $count;
 	}
 }

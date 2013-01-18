@@ -1,4 +1,8 @@
 <?php
+/**
+ * 任务 
+ * @author tinghe
+ */
 class TaskItem extends CActiveRecord
 {
 	var $error_msg = null;

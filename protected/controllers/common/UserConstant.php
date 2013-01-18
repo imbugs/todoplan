@@ -13,4 +13,9 @@ interface UserConstant {
 	const TYPE_WEIBO = "weibo";
 	// 本地注册
 	const TYPE_QQ = "qq";
+	
+	// 校验Email
+	const VERIFY_VALID = "valid";
+	// 重置密码
+	const VERIFY_RESET = "reset";
 }

@@ -10,7 +10,7 @@ class UserController extends Controller
 	public function accessRules() {
         return array(
             array('deny',  // deny all guests
-				'actions'=>array('changepasswd', 'active'),
+				'actions'=>array('changepasswd', 'verify'),
 				'users'=>array('?')
 			),
 			array('allow',
@@ -73,8 +73,28 @@ class UserController extends Controller
 	}
 	
 	public function actionVerify() {
-		$model = null;
-		EmailUtils::sendVerifyMail('imbugs@126.com');
+		$model = new stdClass();
+		$userInfo = Session::userInfo();
+		$model->redirect = false;
+		$model->email = StringUtils::maskEmail($userInfo->email, '*');
+		
+		$emailActivationKey = Yii::app()->getRequest()->getParam("emailActivationKey", "");
+		if (empty($emailActivationKey)) {
+			$send = Yii::app()->getRequest()->getParam("send", "false");
+			if ($send == "true") {
+				$userAction = new UserAction();
+				$result = $userAction->sendVerifyMail($userInfo);
+				if (!$result) {
+					$model->sendFail = true;
+				}
+			}
+		} else {
+			$userAction = new UserAction();
+			$result = $userAction->doVerifyMail($userInfo, $emailActivationKey);
+			if ($result) {
+				$model->redirect = true;
+			}
+		}
 		$this->render('verify',array('model'=>$model));
 	}
 	

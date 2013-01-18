@@ -3,7 +3,7 @@ class EmailUtils {
 	
 	public static function sendYiiMail($to, $subject, $body, $debug = false) {
 		$from = 'support@todoplan.net';
-		//$from = 'todoplan@126.com';
+		$from = 'todoplan@126.com';
 		$message = new YiiMailMessage;
 		$message->message->setSubject($subject);
 		//$message->view = 'registrationFollowup';
