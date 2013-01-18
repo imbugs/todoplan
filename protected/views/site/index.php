@@ -358,6 +358,9 @@ $this->pageTitle=Yii::app()->name;
 					TP.fn.msg("删除列表失败");
 				}
 			},"json");
+		},
+		sortItem: function(order) {
+			$.post('?r=item/sort', {order: order}, function(reps) {}, "json");
 		}
 	};
 	tp.mix("item", item);
@@ -554,6 +557,9 @@ $this->pageTitle=Yii::app()->name;
 					list.view.addItem(reps[idx]);
 				}
 			},"json");
+		},
+		sortItem: function(order) {
+			$.post('?r=list/sort', {order: order}, function(reps) {}, "json");
 		}
 	};
 	tp.mix("list", list);
@@ -638,8 +644,17 @@ $(function() {
 		}
 	});
 
-	$('ul.sortable').sortable();
-    $('ul.sortable').disableSelection();
+	$('ul.task-sortable').sortable({update: function( event, ui ) {
+		var order = $(this).sortable('toArray', { attribute: "rel" });
+		TP.item.controller.sortItem(order)
+	}}).disableSelection();
+	
+    $('ul.list-sortable').sortable({
+    	items: "li.deletable",
+        update: function( event, ui ) {
+			var order = $(this).sortable('toArray', { attribute: "rel" });
+			TP.list.controller.sortItem(order)
+	}}).disableSelection();
 });
 //-->
 </script>
@@ -717,7 +732,7 @@ div.tab-inner div.warning{
 			</div>
 			<div id="scrollable-list" class="scrollable">
 					<div class="scroller" style="padding: 5px 0px 10px 0px;">
-						<ul class="task_lists nav nav-pills nav-stacked">
+						<ul class="task_lists nav nav-pills nav-stacked list-sortable">
 				        </ul>
 				        <ul class="nav nav-pills nav-stacked">
 					        <li class="add-list">
@@ -744,7 +759,7 @@ div.tab-inner div.warning{
 		<div style="width: 1px; background-color: gray; float: left" class="height100"></div>
 		<div class="tasks span8 height100">
 			<div class="add-tasks area">
-				<ul class="task-items nav nav-tabs nav-stacked">
+				<ul class="task-items nav nav-tabs nav-stacked ">
 					<li id="input-width">
 						<input type="text" name="addItem" id="addItem" maxlength="255" class="input-xxlarge" placeholder="添加一个任务...">
 					</li>
@@ -759,7 +774,7 @@ div.tab-inner div.warning{
 								<span id="label_list_title" style="padding-left: 10px;"></span>
 							</text>
 						</h3>
-						<ul class="todo-tasks task-items nav nav-tabs nav-stacked sortable">
+						<ul class="todo-tasks task-items nav nav-tabs nav-stacked task-sortable">
 						</ul>
 					</div>
 					<div class="recently-completed area" style="padding: 5px 0px 10px 0px;">

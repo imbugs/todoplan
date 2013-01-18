@@ -33,6 +33,9 @@ class ListController extends Controller
 			'all'=>array(
 				'class'=>'application.controllers.task.list.GetAllAction',
 			),
+			'sort'=>array(
+				'class'=>'application.controllers.task.list.SortAction',
+			),
 		);
 	}
 }

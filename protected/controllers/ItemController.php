@@ -39,6 +39,9 @@ class ItemController extends Controller
 			'done'=>array(
 				'class'=>'application.controllers.task.item.DoneAction',
 			),
+			'sort'=>array(
+				'class'=>'application.controllers.task.item.SortAction',
+			),
 		);
 	}
 }
