@@ -18,10 +18,4 @@ class EmailUtils {
 		$result = Yii::app()->mail->send($message);
 		return $result;
 	}
-
-	public static function sendVerifyMail($to, $debug = false) {
-		$subject = "TodoPlan账号激活邮件";
-		$body = "http://xxxtest, 自动回复"; 
-		self::sendYiiMail($to, $subject, $body);
-	}
 }

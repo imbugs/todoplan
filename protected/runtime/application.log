@@ -2732,3 +2732,81 @@ REQUEST_URI=/todoplan/index.php?r=user/verify&emailActivationKey=150f917e9304421
 in /opt/lampp/htdocs/todoplan/protected/controllers/user/UserAction.php (122)
 in /opt/lampp/htdocs/todoplan/protected/controllers/UserController.php (93)
 in /opt/lampp/htdocs/todoplan/index.php (13)
+2013/01/18 11:39:29 [error] [php] Undefined variable: to (/opt/lampp/htdocs/todoplan/protected/controllers/user/UserAction.php:120)
+Stack trace:
+#0 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/actions/CInlineAction.php(49): UserController->actionForget()
+#1 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CController.php(308): CInlineAction->runWithParams()
+#2 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/filters/CFilterChain.php(133): UserController->runAction()
+#3 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#4 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#5 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/filters/CInlineFilter.php(58): UserController->filterAccessControl()
+#6 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#7 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CController.php(291): CFilterChain->run()
+#8 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CController.php(265): UserController->runActionWithFilters()
+#9 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CWebApplication.php(282): UserController->run()
+#10 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#11 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#12 /opt/lampp/htdocs/todoplan/index.php(13): CWebApplication->run()
+REQUEST_URI=/todoplan/index.php?r=user/forget
+in /opt/lampp/htdocs/todoplan/protected/controllers/user/UserAction.php (120)
+in /opt/lampp/htdocs/todoplan/protected/models/ForgetForm.php (54)
+in /opt/lampp/htdocs/todoplan/protected/controllers/UserController.php (42)
+2013/01/18 11:40:35 [error] [exception.CHttpException.404] exception 'CHttpException' with message '系统无法找到请求的 "forget." 动作.' in /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CController.php:483
+Stack trace:
+#0 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CController.php(270): CController->missingAction('forget.')
+#1 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CWebApplication.php(282): CController->run('forget.')
+#2 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CWebApplication.php(141): CWebApplication->runController('user/forget.')
+#3 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#4 /opt/lampp/htdocs/todoplan/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/todoplan/index.php?r=user/forget.
+---
+2013/01/18 11:42:07 [error] [exception.CHttpException.404] exception 'CHttpException' with message '系统无法找到请求的 "reset" 动作.' in /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CController.php:483
+Stack trace:
+#0 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CController.php(270): CController->missingAction('reset')
+#1 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CWebApplication.php(282): CController->run('reset')
+#2 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CWebApplication.php(141): CWebApplication->runController('user/reset')
+#3 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#4 /opt/lampp/htdocs/todoplan/index.php(13): CApplication->run()
+#5 {main}
+REQUEST_URI=/todoplan/index.php?r=user/reset&resetKey=150f926ab2b51cac5f025e708e6422e476f0ca79976fd348691e3a
+---
+2013/01/18 12:33:53 [error] [php] array_shift() expects parameter 1 to be array, object given (/opt/lampp/htdocs/todoplan/protected/controllers/user/UserAction.php:165)
+Stack trace:
+#0 /opt/lampp/htdocs/todoplan/protected/controllers/UserController.php(119): ResetForm->resetPassword()
+#1 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/actions/CInlineAction.php(49): UserController->actionReset()
+#2 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CController.php(308): CInlineAction->runWithParams()
+#3 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/filters/CFilterChain.php(133): UserController->runAction()
+#4 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#5 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#6 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/filters/CInlineFilter.php(58): UserController->filterAccessControl()
+#7 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#8 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CController.php(291): CFilterChain->run()
+#9 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CController.php(265): UserController->runActionWithFilters()
+#10 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CWebApplication.php(282): UserController->run()
+#11 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#12 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#13 /opt/lampp/htdocs/todoplan/index.php(13): CWebApplication->run()
+REQUEST_URI=/todoplan/index.php?r=user/reset&resetKey=150f92c841a2124676f0de4f574cc0b23e5e196a99c45fac34460c&username=tinghe
+in /opt/lampp/htdocs/todoplan/protected/controllers/user/UserAction.php (165)
+in /opt/lampp/htdocs/todoplan/protected/models/ResetForm.php (62)
+in /opt/lampp/htdocs/todoplan/protected/controllers/UserController.php (119)
+2013/01/18 12:40:16 [error] [php] Undefined property: UserAction::$error_msg (/opt/lampp/htdocs/todoplan/protected/controllers/user/UserAction.php:170)
+Stack trace:
+#0 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/actions/CInlineAction.php(49): UserController->actionReset()
+#1 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CController.php(308): CInlineAction->runWithParams()
+#2 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/filters/CFilterChain.php(133): UserController->runAction()
+#3 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/filters/CFilter.php(40): CFilterChain->run()
+#4 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CController.php(1145): CAccessControlFilter->filter()
+#5 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/filters/CInlineFilter.php(58): UserController->filterAccessControl()
+#6 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/filters/CFilterChain.php(130): CInlineFilter->filter()
+#7 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CController.php(291): CFilterChain->run()
+#8 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CController.php(265): UserController->runActionWithFilters()
+#9 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CWebApplication.php(282): UserController->run()
+#10 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/web/CWebApplication.php(141): CWebApplication->runController()
+#11 /opt/lampp/htdocs/todoplan/yii-1.1.13/framework/base/CApplication.php(169): CWebApplication->processRequest()
+#12 /opt/lampp/htdocs/todoplan/index.php(13): CWebApplication->run()
+REQUEST_URI=/todoplan/index.php?r=user/reset&resetKey=150f92c841a2124676f0de4f574cc0b23e5e196a99c45fac34460c&username=tinghe
+in /opt/lampp/htdocs/todoplan/protected/controllers/user/UserAction.php (170)
+in /opt/lampp/htdocs/todoplan/protected/models/ResetForm.php (62)
+in /opt/lampp/htdocs/todoplan/protected/controllers/UserController.php (119)

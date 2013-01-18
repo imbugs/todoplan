@@ -28,4 +28,12 @@ class StringUtils {
 	                .substr( $user, $mask_count+$offset ); 
 	        return( $masked.'@'.$domain ); 
 	}
+	
+	public static function encode($str) {
+		return $str;
+	}
+	
+	public static function decode($str) {
+		return $str;
+	}
 }

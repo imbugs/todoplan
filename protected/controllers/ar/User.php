@@ -6,6 +6,7 @@
 class User extends CActiveRecord
 {
 	var $error_msg = null;
+	var $checkOwner = true;
     public static function model($className=__CLASS__)
     {
         return parent::model($className);
@@ -29,6 +30,9 @@ class User extends CActiveRecord
 	}
 	
 	public function checkOwner() {
+		if (!$this->checkOwner) {
+			return true;
+		}
 		if ($this->getIsNewRecord()) {
 			// insert, no owner
 			return true;

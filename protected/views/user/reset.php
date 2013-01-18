@@ -3,7 +3,7 @@
 /* @var $model LoginForm */
 /* @var $form CActiveForm  */
 
-$this->pageTitle=Yii::app()->name . ' - 注册';
+$this->pageTitle=Yii::app()->name . ' - 重置密码';
 ?>
 
 <style>
@@ -22,26 +22,24 @@ $this->pageTitle=Yii::app()->name . ' - 注册';
 				<img src="<?php echo Config::getInstance()->biglogo;?>"/>
 			</a>
 		</div>
-		<h2>注册新用户</h2>
+		<h2>重置密码</h2>
 		<div class="warning">
 			<?php echo $form->error($model,'errorMsg', array('class' => 'alert alert-error')); ?>
 		</div>
-		<div class="input-prepend">
-			<span class="add-on"><i class="icon-user"></i></span>
-			<input placeholder="用户名" name="SignupForm[username]" id="SignupForm_username" type="text" maxlength="12" required>
-	    </div>
+		<input name="ResetForm[username]" id="ResetForm_username" type="hidden" value="<?php echo $model->username;?>" >
+		<input name="ResetForm[resetKey]" id="ResetForm_resetKey" type="hidden" value="<?php echo $model->resetKey;?>" >
 	    <div class="input-prepend">
-			<span class="add-on"><i class="icon-envelope"></i></span>
-			<input placeholder="电子邮件地址" name="SignupForm[email]" id="SignupForm_email" type="email" required>
+			<span class="add-on"><i class="icon-lock"></i></span>
+			<input placeholder="新密码" name="ResetForm[newPasswd]" id="ResetForm_newPasswd" type="password" required>
 	    </div>
 	    <div class="input-prepend">
 			<span class="add-on"><i class="icon-lock"></i></span>
-			<input placeholder="密码" name="SignupForm[password]" id="SignupForm_password" type="password" required>
+			<input placeholder="确认密码" name="ResetForm[verifyPasswd]" id="ResetForm_verifyPasswd" type="password" required>
 	    </div>
 		<div class="submit" style="margin-top: 10px;">
-			<?php echo CHtml::submitButton('立即注册', array("class"=>"btn btn-warning")); ?>
+			<?php echo CHtml::submitButton('重置密码', array("class"=>"btn btn-warning")); ?>
 			<span style="margin-left: 20px;">
-				已有帐号，<a href="<?php echo Config::getUrl('loginUrl');?>" class="default">直接登录</a>»
+				我有密码，<a href="<?php echo Config::getUrl('loginUrl');?>" class="default">直接登录</a>»
 			</span>
 		</div>
 	</div>

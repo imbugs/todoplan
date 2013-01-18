@@ -91,7 +91,8 @@ class UserAction {
 			return false;
 		}
 		$subject = "TodoPlan账号激活";
-		$url = Yii::app()->createAbsoluteUrl('user/verify',array('emailActivationKey'=>$mail->code));
+		$username = StringUtils::encode($mail->username);
+		$url = Yii::app()->createAbsoluteUrl('user/verify',array('emailActivationKey'=>$mail->code, $username));
 		
 		$body = "感谢您注册TodoPlan网!<br/>
 		请马上打开以下链接，激活您的账号！<br/>
@@ -106,21 +107,38 @@ class UserAction {
 	// 发送重置密码Email
 	public function sendResetMail($user) {
 		$mail = VerifyMail::newRecord($user, UserConstant::VERIFY_RESET);
-		$subject = "TodoPlan账号密码找回";
-		$body = "http://xxxtest, 自动找回"; 
-		EmailUtils::sendYiiMail($to, $subject, $body);
+		if (!isset($mail)) {
+			return false;
+		}
+		$subject = "TodoPlan账号找回密码";
+		$username = StringUtils::encode($mail->username);
+		$url = Yii::app()->createAbsoluteUrl('user/reset',array('resetKey'=>$mail->code, 'username'=> $username));
+		
+		$body = "您好！<br/>
+		您申请了找回TodoPlan账号的密码，请打开以下链接重置密码。<br/>
+		$url <br/>
+		请将该网址复制并粘贴至新的浏览器窗口中。<br/>
+		本邮件为系统自动发送，不需要回复";
+		$result = EmailUtils::sendYiiMail($mail->email, $subject, $body);
+		return $result;
 	}
 	
+	/**
+	 * 进行邮箱验证
+	 * @param mix $user
+	 * @param string $code
+	 */
 	public function doVerifyMail($user, $code) {
 		// 删除过期数据
 		VerifyMail::deleteExpired();
-		$attributes  =array('username' => $user->username, 'email' => $user->email, 'code' => $code);
+		$attributes  =array('username' => $user->username, 'code' => $code, 'type' => UserConstant::VERIFY_VALID);
 		$count = VerifyMail::model()->deleteAllByAttributes($attributes);
 		if ($count > 0) {
 			// 更新用户状态
-			$record = User::model()->findByAttributes(array('username' => $user->username, 'email' => $user->email));
+			$record = User::model()->findByAttributes(array('username' => $user->username));
 			if ($record != null) {
 				$record->status = UserConstant::STATUS_ACTIVE;
+				$record->gmt_update = new CDbExpression('now()');
 				if ($record->save()) {
 					return true;
 				}
@@ -129,5 +147,31 @@ class UserAction {
 		} else {
 			return false;
 		}
-	} 
+	}
+	
+	/**
+	 * 进行密码重置
+	 * @param mix $user
+	 * @param string $code
+	 */
+	public function doResetPasswd($user, $code) {
+		// 校验resetKey
+		$attributes  =array('username' => $user->username, 'code' => $code, 'type' => UserConstant::VERIFY_RESET);
+		$count = VerifyMail::model()->deleteAllByAttributes($attributes);
+		if ($count > 0) {
+			// 更新用户密码
+			$record = User::model()->findByAttributes(array('username' => $user->username));
+			if ($record != null) {
+				$record->password = md5($user->password);
+				$record->gmt_update = new CDbExpression('now()');
+				$record->checkOwner = false;
+				if ($record->save()) {
+					return true;
+				}
+			}
+			return false;
+		} else {
+			return false;
+		}
+	}
 }

@@ -11,7 +11,9 @@ $this->pageTitle=Yii::app()->name . ' - 邮箱验证';
 <div class="form">
 	<div class="login-form">
 		<div class="logo">
-			<img src="<?php echo Config::getInstance()->biglogo;?>"/>
+			<a href="<?php echo Yii::app()->homeUrl;?>">
+				<img src="<?php echo Config::getInstance()->biglogo;?>"/>
+			</a>
 		</div>
 		<h2>邮箱验证</h2>
 		<?php if($model->redirect) { ?>

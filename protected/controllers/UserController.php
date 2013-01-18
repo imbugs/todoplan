@@ -32,7 +32,17 @@ class UserController extends Controller
 	}
 	
 	public function actionForget() {
-		$this->render('forget');
+		
+		$model = new ForgetForm;
+		// collect user input data
+		if(isset($_POST['ForgetForm'])) {
+			$model->attributes=$_POST['ForgetForm'];
+			// validate user input and redirect to the previous page if valid
+			if($model->validate()) {
+				$model->sendResetEmail();
+			}
+		}
+		$this->render('forget',array('model'=>$model));
 	}
 	/**
 	 * Displays the login page
@@ -98,6 +108,21 @@ class UserController extends Controller
 		$this->render('verify',array('model'=>$model));
 	}
 	
+	public function actionReset() {
+		$model = new ResetForm;
+		$model->resetKey = Yii::app()->getRequest()->getParam("resetKey", "");
+		$model->username = Yii::app()->getRequest()->getParam("username", "");
+		
+		if(isset($_POST['ResetForm'])) {
+			$model->attributes=$_POST['ResetForm'];
+			// validate user input and redirect to the previous page if valid
+			if($model->validate() && $model->resetPassword()) {
+				$this->redirect(Yii::app()->user->loginUrl);
+			}
+		}
+		
+		$this->render('reset',array('model'=>$model));
+	}
 	/**
 	 * Logs out the current user and redirect to homepage.
 	 */
