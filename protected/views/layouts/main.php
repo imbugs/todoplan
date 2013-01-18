@@ -18,6 +18,11 @@
 	<![endif]-->
 
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/jquery/1.8.3/jquery.min.js"></script>
+	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/jquery-ui/ui/jquery.ui.core.js"></script>
+	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/jquery-ui/ui/jquery.ui.widget.js"></script>
+	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/jquery-ui/ui/jquery.ui.mouse.js"></script>
+	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/jquery-ui/ui/jquery.ui.sortable.js"></script>
+	
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/bootstrap/js/bootstrap.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/keybind/jquery.keybind.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/tmpl/jquery.tmpl.min.js"></script>

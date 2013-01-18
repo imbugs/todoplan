@@ -214,8 +214,8 @@ $this->pageTitle=Yii::app()->name;
 				e.stopPropagation();
 			    return false;
 			});
-			$('i.icon-edit', elem).click(function(e){
-				var element = $(this).parent().parent();
+
+			function editTitle(element) {
 				var inputEditor = new tp.editor.InputEditor($(element), "input-item-editor");
 				inputEditor.showInput();
 				var id = $(element).parent().attr('rel');
@@ -224,9 +224,15 @@ $this->pageTitle=Yii::app()->name;
 						$('span.title', element).text(reps.item.title);
 					});
 				};
+			}
+			
+			$('i.icon-edit', elem).click(function(e){
+				var element = $(this).parent().parent();
+				editTitle(element);
 				e.stopPropagation();
 			    return false;
 			});
+
 			var titleElem = $('a.item-title', elem);
 			
 			var collaspe = $(elem).find('div.collapse');
@@ -257,13 +263,31 @@ $this->pageTitle=Yii::app()->name;
 					});
 				}
 			});
-			$(titleElem).click(function(e) {
+			function showHide(e) {
 				if($(collaspe).hasClass('in')){
 					$(collaspe).collapse('hide');
 				} else {
 					$(titleElem).addClass('expand'); //fix last item radius 
 					$(collaspe).collapse('show');
 				}
+			}
+			$(titleElem).click(function(e) {
+			    var that = this;
+			    setTimeout(function() {
+			        var dblclick = parseInt($(that).data('double'), 10);
+			        if (dblclick > 0) {
+			            $(that).data('double', dblclick-1);
+			        } else {
+			        	showHide(e);
+			        }
+			    }, 200);
+			}).dblclick(function(e) {
+			    $(this).data('double', 2);
+			 	// edit title by dblclick 
+			    var element = $(this).parent().parent();
+				editTitle(element);
+				e.stopPropagation();
+			    return false;
 			});
 		}
 	};
@@ -568,8 +592,8 @@ $(function() {
 		}
 	});
 	
-	TP.item.view.scroll = new iScroll('scrollable-item', {hScroll:false, hScrollbar: false, onBeforeScrollStart: false, hasTouch: false});
-	TP.list.view.scroll = new iScroll('scrollable-list', {hScroll:false, hScrollbar: false, onBeforeScrollStart: false, hasTouch: false});
+	TP.item.view.scroll = new iScroll('scrollable-item', {hScroll:false, hScrollbar: false, onBeforeScrollStart: false, mouseDrag: false});
+	TP.list.view.scroll = new iScroll('scrollable-list', {hScroll:false, hScrollbar: false, onBeforeScrollStart: false, mouseDrag: false});
 
 	// resize input box 
 	var w = $('li#input-width').width();

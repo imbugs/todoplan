@@ -104,7 +104,7 @@ var m = Math,
 			topOffset: 0,
 			checkDOMChanges: false,		// Experimental
 			handleClick: true,
-
+			mouseDrag: true, // drag with mouse
 			// Scrollbar
 			hScrollbar: true,
 			vScrollbar: true,
@@ -174,7 +174,9 @@ var m = Math,
 		that.refresh();
 
 		that._bind(RESIZE_EV, window);
-		that._bind(START_EV);
+		if(that.options.mouseDrag) {
+			that._bind(START_EV);
+		}
 		if (!hasTouch) {
 			if (that.options.wheelAction != 'none') {
 				that._bind('DOMMouseScroll');
@@ -403,10 +405,11 @@ iScroll.prototype = {
 		that.startTime = e.timeStamp || Date.now();
 
 		if (that.options.onScrollStart) that.options.onScrollStart.call(that, e);
-
-		that._bind(MOVE_EV, window);
-		that._bind(END_EV, window);
-		that._bind(CANCEL_EV, window);
+		if (that.options.mouseDrag) {
+			that._bind(MOVE_EV, window);
+			that._bind(END_EV, window);
+			that._bind(CANCEL_EV, window);
+		}
 	},
 	
 	_move: function (e) {
