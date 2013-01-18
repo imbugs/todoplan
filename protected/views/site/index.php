@@ -568,9 +568,9 @@ $(function() {
 		}
 	});
 	
-	TP.item.view.scroll = new iScroll('scrollable-item', {hScroll:false, hScrollbar: false, onBeforeScrollStart: false});
-	TP.list.view.scroll = new iScroll('scrollable-list', {hScroll:false, hScrollbar: false, onBeforeScrollStart: false});
-	
+	TP.item.view.scroll = new iScroll('scrollable-item', {hScroll:false, hScrollbar: false, onBeforeScrollStart: false, hasTouch: false});
+	TP.list.view.scroll = new iScroll('scrollable-list', {hScroll:false, hScrollbar: false, onBeforeScrollStart: false, hasTouch: false});
+
 	// resize input box 
 	var w = $('li#input-width').width();
 	$('input#addItem').width(w-14);
@@ -613,6 +613,9 @@ $(function() {
 			$(target).html('<div class="alert alert-error">' + data.error_msg + '</div>');
 		}
 	});
+
+	$('ul.sortable').sortable();
+    $('ul.sortable').disableSelection();
 });
 //-->
 </script>
@@ -732,7 +735,7 @@ div.tab-inner div.warning{
 								<span id="label_list_title" style="padding-left: 10px;"></span>
 							</text>
 						</h3>
-						<ul class="todo-tasks task-items nav nav-tabs nav-stacked">
+						<ul class="todo-tasks task-items nav nav-tabs nav-stacked sortable">
 						</ul>
 					</div>
 					<div class="recently-completed area" style="padding: 5px 0px 10px 0px;">
