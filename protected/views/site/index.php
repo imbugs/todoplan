@@ -284,7 +284,7 @@ $this->pageTitle=Yii::app()->name;
 			}).dblclick(function(e) {
 			    $(this).data('double', 2);
 			 	// edit title by dblclick 
-			    var element = $(this).parent().parent();
+			    var element = $(this).parent();
 				editTitle(element);
 				e.stopPropagation();
 			    return false;
