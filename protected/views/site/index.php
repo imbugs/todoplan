@@ -186,7 +186,7 @@ $this->pageTitle=Yii::app()->name;
 			}
 			// 最后一步重新计算scroll 
 			if (this.scroll != null) {
-				this.scroll.refresh();
+				this.scroll.resize();
 			}
 		},
 		bindEvent : function(elem) {
@@ -383,7 +383,7 @@ $this->pageTitle=Yii::app()->name;
 		onChangeItem: function() {
 			// 最后一步重新计算scroll 
 			if (this.scroll != null) {
-				this.scroll.refresh();
+				this.scroll.resize();
 			}
 		},
 		setTitle: function(elem) {
@@ -598,9 +598,10 @@ $(function() {
 		}
 	});
 	
-	TP.item.view.scroll = new iScroll('scrollable-item', {hScroll:false, hScrollbar: false, onBeforeScrollStart: false, mouseDrag: false});
-	TP.list.view.scroll = new iScroll('scrollable-list', {hScroll:false, hScrollbar: false, onBeforeScrollStart: false, mouseDrag: false});
-
+	//TP.item.view.scroll = new iScroll('scrollable-item', {hScroll:false, hScrollbar: false, onBeforeScrollStart: false, mouseDrag: false});
+	//TP.list.view.scroll = new iScroll('scrollable-list', {hScroll:false, hScrollbar: false, onBeforeScrollStart: false, mouseDrag: false});
+	TP.item.view.scroll = $('#scrollable-item').niceScroll("#scrollable-item .scroller",{boxzoom:false, autohidemode:false, cursorcolor: 'gray'});
+	TP.list.view.scroll = $('#scrollable-list').niceScroll("#scrollable-list .scroller",{boxzoom:false, autohidemode:false, cursorcolor: 'gray'});
 	// resize input box 
 	var w = $('li#input-width').width();
 	$('input#addItem').width(w-14);
@@ -644,9 +645,10 @@ $(function() {
 		}
 	});
 
-	$('ul.task-sortable').sortable({update: function( event, ui ) {
-		var order = $(this).sortable('toArray', { attribute: "rel" });
-		TP.item.controller.sortItem(order)
+	$('ul.task-sortable').sortable({
+		update: function( event, ui ) {
+			var order = $(this).sortable('toArray', { attribute: "rel" });
+			TP.item.controller.sortItem(order)
 	}}).disableSelection();
 	
     $('ul.list-sortable').sortable({

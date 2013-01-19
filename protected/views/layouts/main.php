@@ -26,10 +26,10 @@
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/bootstrap/js/bootstrap.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/keybind/jquery.keybind.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/tmpl/jquery.tmpl.min.js"></script>
-	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/iscroll/iscroll.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/expanding/expanding.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/js/jquery.yiiactiveform.js"></script>
 	
+	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/jquery.nicescroll/jquery.nicescroll.js"></script>
 	<script type="text/javascript">
 	<!--
 	$(function() {
