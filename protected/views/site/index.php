@@ -576,6 +576,52 @@ $this->pageTitle=Yii::app()->name;
 		}
 	});
 })($, window.TP);
+
+// sortable scroll 
+(function($, win) {
+	win.scrollControll = {
+			interval : -1,
+			eventX : null,
+			doScrollUp : function () {
+				var scroll = TP.item.view.scroll, spd = 38;
+				var top = scroll.getScrollTop();
+				scroll.doScrollTop(top - spd, spd);
+			}, 
+			doScrollDown : function () {
+				var scroll = TP.item.view.scroll, spd = 38;
+				var top = scroll.getScrollTop();
+				scroll.doScrollTop(top + spd, spd);
+			}
+	}
+	$.ui.ddmanager = {
+		current : null,
+		droppables : [],
+		prepareOffsets : function(that, event) {
+		},
+		drop : function(draggable, event) {
+		},
+		drag : function(draggable, event) {
+			var scroll = TP.item.view.scroll
+			if(event.pageY - scroll.getOffset().top < 0) {
+				// up 
+				if (scrollControll.interval < 0) {
+					scrollControll.interval = setInterval("scrollControll.doScrollUp()", 200);
+				}
+			} else if(scroll.win.height() - (event.pageY - scroll.getOffset().top) < 0) {
+				// down 
+				if (scrollControll.interval < 0) {
+					scrollControll.interval = setInterval("scrollControll.doScrollDown()", 200);
+				}
+			} else {
+				if (scrollControll.interval > 0) {
+					clearTimeout(scrollControll.interval);
+					scrollControll.interval = -1;
+				}
+			}
+		}
+	};
+})($, window);
+// init page 
 $(function() {
 	TP.list.init();
 	
@@ -650,7 +696,6 @@ $(function() {
 			var order = $(this).sortable('toArray', { attribute: "rel" });
 			TP.item.controller.sortItem(order)
 	}}).disableSelection();
-	
     $('ul.list-sortable').sortable({
     	items: "li.deletable",
         update: function( event, ui ) {
