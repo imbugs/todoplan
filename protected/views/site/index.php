@@ -25,7 +25,7 @@ $this->pageTitle=Yii::app()->name;
 </li>
 </script>
 <script id="tmpl-list-item" type="text/x-jquery-tmpl">
-<li class="task-list ${delableClass}" rel="${id}">
+<li class="task-list ${delableClass} droppable" rel="${id}">
 	<a href="#list/${id}" class="noeditor">
 		<i class="${icon}"></i>
 		<span class="title">${list_title}</span>
@@ -59,8 +59,12 @@ $this->pageTitle=Yii::app()->name;
 			}
 		},
 		fn : {
-			msg : function (m) {
-				alert(m);
+			msg : function (m, type) {
+				var type = type || 'error';
+				$.pnotify({
+					title: m,
+					type: type
+				});
 			},
 			ajaxForm: function(form, handler) {
 				$(form).live('submit', function(event) {
@@ -96,6 +100,10 @@ $this->pageTitle=Yii::app()->name;
 
 // input editor 
 (function($, tp){
+	/**
+	 * elem, span.title container
+	 * size, input-small as default
+	 */
 	var InputEditor = function(elem, size) {
 		this.element = elem;
 		this.size = size || "input-small";
@@ -191,50 +199,90 @@ $this->pageTitle=Yii::app()->name;
 		},
 		bindEvent : function(elem) {
 			var $this = this;
+			// done  
 			$('span.task-checkbox', elem).click(function(e) {
 				var itemElem = $(this).parent().parent();
 				var undo = itemElem.parent().hasClass('done-tasks');
 				var id = itemElem.attr('rel')
 				item.controller.done(id, undo, function(reps){
-					// 从todolist删除，加入donelist
+					// 从todolist删除，加入donelist 
+					if (undo) {
+						TP.fn.msg('取消已完成任务', 'success');
+					} else {
+						TP.fn.msg('完成任务', 'success');
+					}
 					itemElem.remove();
 				});
 				e.stopPropagation();
 			    return false;
 			});
+			// remove 
 			$('i.icon-remove', elem).click(function(e){
 				var element = $(this).parent().parent();
 				var id = $(element).parent().attr('rel');
 				var title = $(element).find('span.title').text();
 				if (confirm("确定删除 [" + title + "] ?")) {
 					TP.item.controller.deleteItem(id, function(reps){
+						TP.fn.msg('删除任务', 'info');
 						$(element).parent().remove();
 					});
 				}
 				e.stopPropagation();
 			    return false;
 			});
-
+			// edit , element : <a/> 
 			function editTitle(element) {
 				var inputEditor = new tp.editor.InputEditor($(element), "input-item-editor");
 				inputEditor.showInput();
 				var id = $(element).parent().attr('rel');
 				inputEditor.trigger = function(title) {
 					TP.item.controller.updateItem({id: id, title: title}, function(reps) {
+						TP.fn.msg('更新任务', 'success');
 						$('span.title', element).text(reps.item.title);
 					});
 				};
 			}
-			
+
+			function showHide(e) {
+				if($(collaspe).hasClass('in')){
+					$(collaspe).collapse('hide');
+				} else {
+					$(titleElem).addClass('expand'); //fix last item radius 
+					$(collaspe).collapse('show');
+				}
+			}
+			var titleElem = $('a.item-title', elem);
+			// icon edit 
 			$('i.icon-edit', elem).click(function(e){
 				var element = $(this).parent().parent();
 				editTitle(element);
 				e.stopPropagation();
 			    return false;
 			});
-
-			var titleElem = $('a.item-title', elem);
-			
+			// showhide & dblclick edit 
+			$(titleElem).click(function(e) {
+			    var that = this;
+			    setTimeout(function() {
+			        var dblclick = parseInt($(that).data('double'), 10);
+			        if (dblclick > 0) {
+			            $(that).data('double', dblclick-1);
+			        } else {
+			        	showHide(e);
+			        }
+			    }, 200);
+			}).dblclick(function(e) {
+			    $(this).data('double', 2);
+			 	// edit title by dblclick 
+			    var element = $(this);
+			 	if (element.is('li')) {
+				 	// use <a/> as the param 
+				 	element = element.find('a');
+			 	}
+				editTitle(element);
+				e.stopPropagation();
+			    return false;
+			});
+			// show hide detail 
 			var collaspe = $(elem).find('div.collapse');
 			$(collaspe).collapse({toggle: false});
 			$(collaspe).on('hidden', function () {
@@ -259,35 +307,10 @@ $this->pageTitle=Yii::app()->name;
 					var text = expandingTextarea.getValue();
 					var id = $(elem).attr('rel');
 					TP.item.controller.updateItem({id: id, content: text}, function(reps) {
+						TP.fn.msg('更新任务内容', 'success');
 						expandingTextarea.setValue(reps.item.content);
 					});
 				}
-			});
-			function showHide(e) {
-				if($(collaspe).hasClass('in')){
-					$(collaspe).collapse('hide');
-				} else {
-					$(titleElem).addClass('expand'); //fix last item radius 
-					$(collaspe).collapse('show');
-				}
-			}
-			$(titleElem).click(function(e) {
-			    var that = this;
-			    setTimeout(function() {
-			        var dblclick = parseInt($(that).data('double'), 10);
-			        if (dblclick > 0) {
-			            $(that).data('double', dblclick-1);
-			        } else {
-			        	showHide(e);
-			        }
-			    }, 200);
-			}).dblclick(function(e) {
-			    $(this).data('double', 2);
-			 	// edit title by dblclick 
-			    var element = $(this).parent();
-				editTitle(element);
-				e.stopPropagation();
-			    return false;
 			});
 		}
 	};
@@ -295,6 +318,7 @@ $this->pageTitle=Yii::app()->name;
 		createItem : function(content, listId, handler) {
 			$.post("?r=item/create", {title: content, list_id: listId}, function(reps) {
 				if (reps.success) {
+					console.log(reps);
 					item.view.addItem(reps.item);
 					if (handler && typeof(handler) == "function") {
 						handler(reps);
@@ -344,7 +368,7 @@ $this->pageTitle=Yii::app()->name;
 						handler(reps);
 					}
 				} else {
-					TP.fn.msg("更新列表失败");
+					TP.fn.msg("更新任务失败");
 				}
 			},"json");
 		},
@@ -360,7 +384,7 @@ $this->pageTitle=Yii::app()->name;
 			},"json");
 		},
 		sortItem: function(order) {
-			$.post('?r=item/sort', {order: order}, function(reps) {}, "json");
+			$.post('?r=item/sort', {order: order}, function(reps) { TP.fn.msg("调整任务顺序", 'success'); }, "json");
 		}
 	};
 	tp.mix("item", item);
@@ -411,7 +435,7 @@ $this->pageTitle=Yii::app()->name;
 			} else {
 				if (submit) {
 					var title = $('input#addList').val();
-					list.controller.createItem(title);
+					list.controller.createItem(title, function(reps) { TP.fn.msg('添加列表', 'success'); });
 				}
 				$('input#addList').hide();
 				$('input#addList').val('');
@@ -426,6 +450,21 @@ $this->pageTitle=Yii::app()->name;
 				item.icon = "icon-inbox";
 			}
 			var itemElem = $('#tmpl-list-item').tmpl(item);
+			// to drop item 
+			$('a', itemElem).droppable({
+		    	hoverClass: 'drop-box',
+		        drop: function( event, ui ) {
+			        var listId = $(this).parent().attr('rel');
+			        if (!ui.draggable.hasClass('droppable')) {
+			        	var taskId = ui.draggable.attr('rel');
+				        var data = {id: taskId, list_id: listId};
+				        TP.item.controller.updateItem(data, function(reps) {
+					        TP.fn.msg('移动任务', 'success');
+				        	ui.draggable.remove();
+					    });
+			        }
+		        }
+		    });
 			if (this.isSelect(item)) {
 				$('li.task-list').removeClass('active');
 				itemElem.addClass('active');
@@ -492,9 +531,12 @@ $this->pageTitle=Yii::app()->name;
 					var oldtitle = $(input).attr('oldvalue');
 					if (title != oldtitle) {
 						var id = $(elem).parent().attr('rel');
-						list.controller.updateItem(id, title, function(reps) {
+						var data = {id: id, list_title: title};
+						list.controller.updateItem(data, function(reps) {
+							TP.fn.msg('更新列表', 'success');
 							$(elem).find('span.title').text(reps.item.list_title);
 							$this.setTitle($(elem).parent());
+							list.view.onChangeItem();
 						});
 					}
 				}
@@ -524,19 +566,22 @@ $this->pageTitle=Yii::app()->name;
 				},"json");
 			}
 		},
-		updateItem: function(id, content, handler) {
-			if (content && content != "") {
-				$.post("?r=list/update", {id: id, list_title: content}, function(reps){
-					if (reps.success) {
-						if (handler && typeof(handler) == "function") {
-							handler(reps);
-							list.view.onChangeItem();
-						}
-					} else {
-						TP.fn.msg("更新列表失败");
-					}
-				},"json");
+		updateItem: function(data, handler) {
+			// data: {id: id, list_title: content}
+			for (idx in data) {
+				if (!(data[idx] && data[idx] != "")) {
+					return;
+				}
 			}
+			$.post("?r=list/update", data , function(reps){
+				if (reps.success) {
+					if (handler && typeof(handler) == "function") {
+						handler(reps);
+					}
+				} else {
+					TP.fn.msg("更新列表失败");
+				}
+			},"json");
 		},
 		deleteItem: function(listId, handler) {
 			$.post("?r=list/delete", {id: listId}, function(reps){
@@ -559,7 +604,7 @@ $this->pageTitle=Yii::app()->name;
 			},"json");
 		},
 		sortItem: function(order) {
-			$.post('?r=list/sort', {order: order}, function(reps) {}, "json");
+			$.post('?r=list/sort', {order: order}, function(reps) { TP.fn.msg('调整列表顺序', 'success'); }, "json");
 		}
 	};
 	tp.mix("list", list);
@@ -567,60 +612,79 @@ $this->pageTitle=Yii::app()->name;
 
 (function($, tp) {
 	tp.mix("app", {
+		openSetting: function() {
+			$('div#settings').modal('show');
+		},
 		closeSettings : function() {
 			$('div#settings').modal('hide');
 			$('div#change-result').html('');
 		},
-		search : function() {
-			
+		search : function(pattern) {
+			if (pattern && pattern != null && pattern != "") {
+				var regExp = new RegExp(pattern);
+				$('li.task-item').each(function(idx) {
+					var title = $(this).find('span.title').text();
+					if(regExp.test(title)) {
+						$(this).show();
+					} else {
+						$(this).hide();
+					}
+				});
+			}
+		},
+		searchReset: function() {
+			$('li.task-item').each(function(idx) {
+				$(this).show();
+			});
 		}
 	});
 })($, window.TP);
 
-// sortable scroll 
+// nice scroll + jquery sortable patch 
 (function($, win) {
 	win.scrollControll = {
-			interval : -1,
-			eventX : null,
-			doScrollUp : function () {
-				var scroll = TP.item.view.scroll, spd = 38;
-				var top = scroll.getScrollTop();
-				scroll.doScrollTop(top - spd, spd);
-			}, 
-			doScrollDown : function () {
-				var scroll = TP.item.view.scroll, spd = 38;
-				var top = scroll.getScrollTop();
-				scroll.doScrollTop(top + spd, spd);
-			}
+		interval : -1,
+		eventX : null,
+		doScrollUp : function (scroll) {
+			var spd = 38 * 3;
+			var top = scroll.getScrollTop();
+			scroll.doScrollTop(top - spd, 38);
+		}, 
+		doScrollDown : function (scroll) {
+			var spd = 38 * 3;
+			var top = scroll.getScrollTop();
+			scroll.doScrollTop(top + spd, 38);
+		}
+	};
+	$super = {};
+	if (!$.ui.ddmanager) {
+		$.ui.ddmanager = {}; 
+	} else {
+		$super.drag = $.ui.ddmanager.drag;
 	}
-	$.ui.ddmanager = {
-		current : null,
-		droppables : [],
-		prepareOffsets : function(that, event) {
-		},
-		drop : function(draggable, event) {
-		},
+	$.extend($.ui.ddmanager, {
+		current: null,
 		drag : function(draggable, event) {
-			var scroll = TP.item.view.scroll
-			if(event.pageY - scroll.getOffset().top < 0) {
-				// up 
-				if (scrollControll.interval < 0) {
-					scrollControll.interval = setInterval("scrollControll.doScrollUp()", 200);
-				}
-			} else if(scroll.win.height() - (event.pageY - scroll.getOffset().top) < 0) {
-				// down 
-				if (scrollControll.interval < 0) {
-					scrollControll.interval = setInterval("scrollControll.doScrollDown()", 200);
-				}
-			} else {
-				if (scrollControll.interval > 0) {
-					clearTimeout(scrollControll.interval);
-					scrollControll.interval = -1;
+			if ($super.drag) {
+				$super.drag.call(this, draggable, event);
+			}
+			var scroll = null;
+			if (this.current != null && this.current.element.hasClass('todo-tasks')) {
+				scroll = TP.item.view.scroll;
+			} else if (this.current != null && this.current.element.hasClass('task_lists')) {
+				scroll = TP.list.view.scroll;
+			}
+			if (scroll != null) {
+				if(event.pageY - scroll.getOffset().top < 0) {
+					scrollControll.doScrollUp(scroll);
+				} else if(scroll.win.height() - (event.pageY - scroll.getOffset().top) < 0) {
+					scrollControll.doScrollDown(scroll);
 				}
 			}
 		}
-	};
+	});
 })($, window);
+
 // init page 
 $(function() {
 	TP.list.init();
@@ -630,6 +694,7 @@ $(function() {
 			var content = $(o.currentTarget).val();
 			var listId = $('li.task-list.active').attr('rel');
 			TP.item.controller.createItem(content, listId, function(reps){
+				TP.fn.msg('添加任务', 'success');
 				$(o.currentTarget).val("");
 			});
 		}
@@ -646,8 +711,8 @@ $(function() {
 	
 	//TP.item.view.scroll = new iScroll('scrollable-item', {hScroll:false, hScrollbar: false, onBeforeScrollStart: false, mouseDrag: false});
 	//TP.list.view.scroll = new iScroll('scrollable-list', {hScroll:false, hScrollbar: false, onBeforeScrollStart: false, mouseDrag: false});
-	TP.item.view.scroll = $('#scrollable-item').niceScroll("#scrollable-item .scroller",{boxzoom:false, autohidemode:false, cursorcolor: 'gray'});
-	TP.list.view.scroll = $('#scrollable-list').niceScroll("#scrollable-list .scroller",{boxzoom:false, autohidemode:false, cursorcolor: 'gray'});
+	TP.item.view.scroll = $('#scrollable-item').niceScroll("#scrollable-item .scroller",{boxzoom:false, autohidemode:false, cursorcolor: 'gray', bouncescroll: false});
+	TP.list.view.scroll = $('#scrollable-list').niceScroll("#scrollable-list .scroller",{boxzoom:false, autohidemode:false, cursorcolor: 'gray', bouncescroll: false});
 	// resize input box 
 	var w = $('li#input-width').width();
 	$('input#addItem').width(w-14);
@@ -667,6 +732,7 @@ $(function() {
 			var title = $(elem).find('span.title').text();
 			if (confirm("该操作会永久删除列表["+ title +"]中所有任务,是否继续?")) {
 				TP.list.controller.deleteItem(listId, function(reps) {
+					TP.fn.msg('删除列表', 'info');
 					var select = $(elem).next('li.task-list');
 					if (select.size() <= 0) {
 						select = $(elem).prev('li.task-list');
@@ -678,6 +744,32 @@ $(function() {
 		}
 	});
 
+	$('a.settings').click(function(e) {
+		TP.app.openSetting();
+	});
+
+	$('a.settings').click(function(e) {
+		TP.app.openSetting();
+	});
+
+	$('a#search').click(function(e) {
+		if ($('div.search-container').css('display') == 'none') {
+			$('div#logo').hide();
+			$('div.search-container').css('display', 'inline');
+		} else {
+			$('div#logo').show();
+			$('div.search-container').css('display', 'none');
+			TP.app.searchReset();
+		}
+	});
+
+	$('input.search-item').keyup(function(e) {
+		if($(this).val() != '') {
+			TP.app.search($(this).val());
+		} else {
+			TP.app.searchReset();
+		}
+	});
 	TP.fn.ajaxForm($('form[data-async]'), function(data, status) {
 		var $form = $(this);
 		var target = $form.attr('data-target');
@@ -692,11 +784,13 @@ $(function() {
 	});
 
 	$('ul.task-sortable').sortable({
+		distance: 20,
 		update: function( event, ui ) {
 			var order = $(this).sortable('toArray', { attribute: "rel" });
 			TP.item.controller.sortItem(order)
 	}}).disableSelection();
     $('ul.list-sortable').sortable({
+    	distance: 20,
     	items: "li.deletable",
         update: function( event, ui ) {
 			var order = $(this).sortable('toArray', { attribute: "rel" });
@@ -705,7 +799,6 @@ $(function() {
 });
 //-->
 </script>
-
 <style>
 <!--
 div#toolbar {
@@ -761,10 +854,12 @@ div.tab-inner div.warning{
 						<img class="avatar" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/images/users/32.png"/>
 					</a>
 					<ul class="dropdown-menu" role="menu">
-						<li><a tabindex="-1" href="#settings" data-toggle="modal">设置</a></li>
+						<li>
+							<a tabindex="-1" href="#settings" data-toggle="modal">设置</a>
+						</li>
                         <li class="divider"></li>
                         <li><a tabindex="-1" href="<?php echo Config::getUrl('logoutUrl');?>">退出</a></li>
-                      </ul>
+                    </ul>
 				</div>
 				<div id="logo">
 					<a class="button">
@@ -773,7 +868,10 @@ div.tab-inner div.warning{
 						</span>
 					</a>
 				</div>
-				<a href="#/search" id="search">
+				<div class="search-container" style="display: none;">
+					<input type="text" class="input-small search-query search-item" placeholder="查找任务...">
+				</div>
+				<a href="#/search" id="search" class="search">
 					<i class="icon-search"></i>
 				</a>
 			</div>
@@ -799,7 +897,7 @@ div.tab-inner div.warning{
 	        		<span class="icon detail-trash"></span>
 	        	</a>
 	        	<a class="settings">
-	        		<span class="icon settings"></span>
+	        		<span class="icon settings" style="float: right; margin-right: 20px;"></span>
 	        	</a>
 	        </div>
 		</div>

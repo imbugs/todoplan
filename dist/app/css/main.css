@@ -252,3 +252,25 @@ div.form div.login-form div.warning {
 div.form div.login-form div.logo {
 	margin-bottom: 20px;
 }
+div.search-container input.search-item {
+	padding-top: 0px;
+	padding-bottom: 0px;
+	margin-top: -22px;
+	margin-left: 5px;
+}
+/** sortable item border */
+div.area li.task-item {
+	list-style: none;
+}
+div.area li.task-item a {
+	border: 1px solid #DDD;
+	-webkit-border-radius: 0;
+	-moz-border-radius: 0;
+	border-radius: 0;
+}
+
+/** drop box border */
+a.drop-box {
+	background-color: #DDF2FC;
+}
+

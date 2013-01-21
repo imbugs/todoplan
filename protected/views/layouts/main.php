@@ -9,6 +9,7 @@
 	<!-- APP CSS -->
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/bootstrap/css/bootstrap.min.css" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/bootstrap/css/bootstrap-responsive.min.css"/>
+	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/pnotify/css/jquery.pnotify.default.css"/>
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/css/wunderlist.css"/>
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/css/screen.css" media="screen, projection" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/css/print.css" media="print" />
@@ -22,14 +23,15 @@
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/jquery-ui/ui/jquery.ui.widget.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/jquery-ui/ui/jquery.ui.mouse.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/jquery-ui/ui/jquery.ui.sortable.js"></script>
-	
+	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/jquery-ui/ui/jquery.ui.draggable.js"></script>
+	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/jquery-ui/ui/jquery.ui.droppable.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/bootstrap/js/bootstrap.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/keybind/jquery.keybind.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/tmpl/jquery.tmpl.min.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/expanding/expanding.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/js/jquery.yiiactiveform.js"></script>
-	
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/jquery.nicescroll/jquery.nicescroll.js"></script>
+	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/pnotify/js/jquery.pnotify.js"></script>
 	<script type="text/javascript">
 	<!--
 	$(function() {

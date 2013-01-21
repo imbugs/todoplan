@@ -25,6 +25,12 @@
 	height: 20px;
 }
 
+.icon.settings {
+	background-position: -60px -120px;
+	width: 20px;
+	height: 20px;
+}
+
 a.disabled, #sidebar-actions a.disabled:hover {
 	opacity: .2;
 }
