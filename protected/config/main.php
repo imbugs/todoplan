@@ -42,14 +42,14 @@ return array(
 			'allowAutoLogin'=>true,
             'loginUrl'=>array('user/login')
 		),
-		/*'mail'=>array(
+		'mail'=>array(
 	        'class' => 'ext.yii-mail.YiiMail',
 			'transportType' => 'php',
 			'viewPath' => 'application.views.mail',
 			'logging' => true,
 			'dryRun' => false
-	    ),*/
-		'mail'=>array(
+	    ),
+		/*'mail'=>array(
 	        'class' => 'ext.yii-mail.YiiMail',
 			'transportType' => 'smtp',
 			'transportOptions' => array(
@@ -62,7 +62,7 @@ return array(
 			'viewPath' => 'application.views.mail',
 			'logging' => true,
 			'dryRun' => false
-	    ),
+	    ),*/
 		// uncomment the following to enable URLs in path-format
 		/*
 		'urlManager'=>array(
@@ -79,10 +79,10 @@ return array(
 	    	'disableAssets' => true
 		),
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=todoplan',
+			'connectionString' => 'mysql:host=localhost;dbname=todoinit',
 			'emulatePrepare' => true,
-			'username' => 'todoplan',
-			'password' => 'todoplan',
+			'username' => 'root',
+			'password' => 'iloveminmin1w',
 			'charset' => 'utf8',
 		),
 		'errorHandler'=>array(

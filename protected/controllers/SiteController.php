@@ -37,8 +37,10 @@ class SiteController extends Controller {
 		$userInfo = $userAction->getUserById($userId);
 		if (isset($userInfo->status) && $userInfo->status == UserConstant::STATUS_ACTIVE) {
 			$this->render('index', array("userInfo" => $userInfo));
-		} else {
+		} else if (isset($userInfo->status) && $userInfo->status == UserConstant::STATUS_TOVALID) {
 			$this->redirect(Config::getUrl('verifyUrl'));
+		} else {
+			$this->redirect(Config::getUrl('logoutUrl'));
 		}
 	}
 
