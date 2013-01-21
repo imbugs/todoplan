@@ -1,10 +1,13 @@
 <?php
 class StringUtils {
+	// length = 42;
+	const SECRET_KEY = "e02e33a4d1b885b6fda8ee782ae23f6f";
+	
 	public static function isEmpty($value,$trim=false) {
 		return $value===null || $value===array() || $value==='' || $trim && is_scalar($value) && trim($value)==='';
 	}
 	
-	public static function getUUID () {
+	public static function getUUID() {
 		$uuid = uniqid(true);
 		$time = time();
 		$sha1 = sha1($time);
@@ -33,13 +36,49 @@ class StringUtils {
 		if (empty($str)) {
 			return $str;
 		}
-		return 'xxxxx' . $str;
+		$encrypt = trim(
+			base64_encode(
+				mcrypt_encrypt(
+					MCRYPT_RIJNDAEL_256,
+					self::SECRET_KEY, $str,
+					MCRYPT_MODE_ECB,
+					mcrypt_create_iv(
+						mcrypt_get_iv_size(
+							MCRYPT_RIJNDAEL_256,
+							MCRYPT_MODE_ECB
+						),
+						MCRYPT_RAND
+					)
+				)
+			)
+        );
+        // remove '='
+        $encrypt = substr($encrypt, 0, strlen($encrypt) - 1);
+		return $encrypt;
 	}
 	
 	public static function decode($str) {
 		if (empty($str)) {
 			return $str;
 		}
-		return substr($str, 5);
+		// add '='
+		$str = $str . '=';
+		$decrypt = trim(
+			mcrypt_decrypt(
+				MCRYPT_RIJNDAEL_256,
+				self::SECRET_KEY,
+				base64_decode($str),
+				MCRYPT_MODE_ECB,
+				mcrypt_create_iv(
+					mcrypt_get_iv_size(
+						MCRYPT_RIJNDAEL_256,
+						MCRYPT_MODE_ECB
+					),
+					MCRYPT_RAND
+				)
+			)
+    	);
+    	return $decrypt;
 	}
+	
 }
