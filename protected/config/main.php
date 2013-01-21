@@ -79,10 +79,10 @@ return array(
 	    	'disableAssets' => true
 		),
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=todoinit',
+			'connectionString' => 'mysql:host=localhost;dbname=todoplan',
 			'emulatePrepare' => true,
-			'username' => 'root',
-			'password' => 'iloveminmin1w',
+			'username' => 'todoplan',
+			'password' => 'todoplan',
 			'charset' => 'utf8',
 		),
 		'errorHandler'=>array(
