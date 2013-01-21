@@ -59,14 +59,16 @@ class TaskList extends CActiveRecord
 		return $item->last_sort_id;
 	}
 	
-	public function copy() {
+	public function copy($encode = true) {
 		$colNames = array("id", "list_title", "deletable");
 
 		$to = new stdClass();
 		foreach ($colNames as $col) {
 			$to->$col = $this->$col;
 		}
-
+		if ($encode) {
+			$to->id = StringUtils::encode($to->id);
+		}
 		return $to;
 	}
 	

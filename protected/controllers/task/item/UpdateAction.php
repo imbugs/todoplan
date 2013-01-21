@@ -12,5 +12,11 @@ class UpdateAction extends AbstractUpdateAction
 		if (isset($content)) {
 			$taskItem->content = $content;
 		}
+		$list_id = Yii::app()->getRequest()->getParam("list_id", null);
+		$list_id = StringUtils::decode($list_id);
+		if (isset($list_id)) {
+			$taskItem->list_id = $list_id;
+			$taskItem->sort_id = $taskItem->lastSortId()  + 1;
+		}
 	}
 }

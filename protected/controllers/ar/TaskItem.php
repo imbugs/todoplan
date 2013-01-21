@@ -70,14 +70,17 @@ class TaskItem extends CActiveRecord
 		return $item->last_sort_id;
 	}
 
-	public function copy() {
+	public function copy($encode = true) {
 		$colNames = array("id", "list_id", "title", "content", "starred", "done");
 			
 		$to = new stdClass();
 		foreach ($colNames as $col) {
 			$to->$col = $this->$col;
 		}
-			
+		if ($encode) {
+			$to->id = StringUtils::encode($to->id);
+			$to->list_id = StringUtils::encode($to->list_id);
+		}
 		return $to;
 	}
 }

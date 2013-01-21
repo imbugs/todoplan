@@ -5,6 +5,7 @@ class CreateAction extends CAction
 	{
 		$taskItem = new TaskItem();
 		$taskItem->list_id = Yii::app()->getRequest()->getParam("list_id", "-1");
+		$taskItem->list_id = StringUtils::decode($taskItem->list_id);
 		$taskItem->title = Yii::app()->getRequest()->getParam("title", "");
 		$taskItem->gmt_update = new CDbExpression('now()');
 		$taskItem->gmt_create = new CDbExpression('now()');

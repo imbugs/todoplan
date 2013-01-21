@@ -30,10 +30,16 @@ class StringUtils {
 	}
 	
 	public static function encode($str) {
-		return $str;
+		if (empty($str)) {
+			return $str;
+		}
+		return 'xxxxx' . $str;
 	}
 	
 	public static function decode($str) {
-		return $str;
+		if (empty($str)) {
+			return $str;
+		}
+		return substr($str, 5);
 	}
 }

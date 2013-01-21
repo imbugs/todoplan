@@ -6,6 +6,7 @@ class SortAction extends CAction
 		$order = Yii::app()->getRequest()->getParam("order", array());
 		if (count($order) > 0) {
 			foreach ($order as $sortId => $id) {
+				$id = StringUtils::decode($id);
 				if (isset($id) && isset($sortId)) {
 					TaskItem::model()->updateByPk($id, array('sort_id' => $sortId, 'gmt_update' => new CDbExpression('now()')));
 				}
