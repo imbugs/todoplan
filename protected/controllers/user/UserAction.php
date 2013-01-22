@@ -78,8 +78,10 @@ class UserAction {
 			if ($user->status == UserConstant::STATUS_TOVALID) {
 				$this->sendVerifyMail($user);
 			}
+			Yii::log("create user [{$userInfo->username}]", CLogger::LEVEL_INFO);
 		} else {
 			$result->error_msg = $taskList->error_msg;
+			Yii::log("create user failed [{$result->error_msg}]", CLogger::LEVEL_WARNING);
 		}
 		return $result;
 	}

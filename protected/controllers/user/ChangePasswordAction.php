@@ -42,6 +42,11 @@ class ChangePasswordAction extends CAction {
         		$result->error_msg = "更新密码时发生异常.";
         	}
         }
+        if ($result->success) {
+        	Yii::log("change password [{$username}]", CLogger::LEVEL_INFO);
+        } else {
+        	Yii::log("change password failed [{$username}]", CLogger::LEVEL_WARNING);
+        }
 		echo json_encode($result);
 	}
 }

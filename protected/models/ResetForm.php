@@ -61,8 +61,12 @@ class ResetForm extends CFormModel {
 		$userAction = new UserAction();
 		$result = $userAction->doResetPasswd($userInfo, $this->resetKey);
 		if (!$result) {
+			Yii::log("reset password failed [{$this->username}]", CLogger::LEVEL_WARNING);
 			$this->addError('errorMsg',"密码修改失败");
+		} else {
+			Yii::log("reset password [{$this->username}]", CLogger::LEVEL_INFO);
 		}
+
 		return $result;
 	}
 }

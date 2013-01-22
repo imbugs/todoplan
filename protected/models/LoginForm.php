@@ -52,8 +52,10 @@ class LoginForm extends CFormModel {
 			$this->_identity=new UserIdentity($this->username,$this->password);
 			$this->_identity->authenticate();
 			if ($this->_identity->errorCode == UserIdentity::ERROR_USERNAME_INVALID) {
+				Yii::log("login failed [{$this->username}], errorCode [ERROR_USERNAME_INVALID]", CLogger::LEVEL_WARNING);
 				$this->addError('errorMsg','用户名或密码错误');
 			} else if ($this->_identity->errorCode == UserIdentity::ERROR_PASSWORD_INVALID) {
+				Yii::log("login failed [{$this->username}], errorCode [ERROR_PASSWORD_INVALID]", CLogger::LEVEL_WARNING);
 				$this->addError('errorMsg','用户名或密码错误.');
 			}
 		} else {
@@ -75,8 +77,10 @@ class LoginForm extends CFormModel {
 		if($this->_identity->errorCode===UserIdentity::ERROR_NONE) {
 			$duration=$this->rememberMe ? 3600*24*30 : 0; // 30 days
 			Yii::app()->user->login($this->_identity, $duration);
+			Yii::log("login success [{$this->username}]", CLogger::LEVEL_INFO);
 			return true;
 		} else {
+			Yii::log("login failed [{$this->username}], errorCode [{$this->_identity->errorCode}]", CLogger::LEVEL_WARNING);
 			return false;
 		}
 	}

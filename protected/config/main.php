@@ -94,7 +94,19 @@ return array(
 			'routes'=>array(
 				array(
 					'class'=>'CFileLogRoute',
-					'levels'=>'error, warning',
+					'levels'=>'error',
+					'logFile'=>'error.log',
+				),
+				array(
+					'class'=>'CFileLogRoute',
+					'levels'=>'warning',
+					'logFile'=>'warning.log',
+				),
+				array(
+					'class'=>'CFileLogRoute',
+					'levels'=>'info',
+					'logFile'=>'default.log',
+					'categories'=>'application.*',
 				),
 				// uncomment the following to show log messages on web pages
 				/*
@@ -110,6 +122,6 @@ return array(
 	// using Yii::app()->params['paramName']
 	'params'=>array(
 		// this is used in contact page
-		'adminEmail'=>'imbugs@126.com',
+		'adminEmail'=>'todoplan@126.com',
 	),
 );

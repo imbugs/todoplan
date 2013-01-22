@@ -16,6 +16,11 @@ class EmailUtils {
 			Yii::app()->mail->dryRun = false;
 		}
 		$result = Yii::app()->mail->send($message);
+		if ($result) {
+			Yii::log("send email to [{$to}], subject [{$subject}]", CLogger::LEVEL_INFO);
+		} else {
+			Yii::log("send email failed to [{$to}], subject [{$subject}]", CLogger::LEVEL_WARNING);
+		}
 		return $result;
 	}
 }
