@@ -8,7 +8,7 @@
 	<link rel="shortcut icon" type="image/x-icon"
 		href="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/images/logo/todoplan.ico" />
 	<meta name="robots" content="noindex,nofollow" />
-	<title>错误 <?php echo $code;?></title>
+	<title>错误 404</title>
 	<style>
 	body {
 		background: #f9fee8;
@@ -52,11 +52,11 @@
 		<img alt="todoplan-logo"
 			src="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/images/logo/todoplan-logo.png" />
 		<h1>We're sorry...</h1>
-		<p>服务器发生异常</p>
-		<p style="display: none;"><?php echo CHtml::encode($message); ?></p>
+		<p>您访问的页面没有找到.</p>
 		<p>
 			<a href="<?php echo Yii::app()->homeUrl;?>">返回主页</a>
 		</p>
 	</div>
 </body>
 </html>
+

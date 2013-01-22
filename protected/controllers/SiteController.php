@@ -52,7 +52,11 @@ class SiteController extends Controller {
 			if(Yii::app()->request->isAjaxRequest) {
 				echo $error['message'];
 			} else {
-				$this->render('error', $error);
+				if ($error['code'] == '404') {
+					$this->renderPartial('404');
+				} else {
+					$this->render('error', $error);
+				}
 			}
 		}
 	}
