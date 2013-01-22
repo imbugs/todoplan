@@ -45,6 +45,18 @@ $this->pageTitle=Yii::app()->name;
 		placeholder="新名称..." oldvalue="${title}" value="${title}">
 </span>
 </script>
+<script id="tmpl-confirm-modal" type="text/x-jquery-tmpl">
+<div class="modal hide fade confirm">
+	<div class="modal-body">
+		<h3>${message}</h3>
+	</div>
+	<div class="modal-footer">
+		<p class="text-error" style="float:left; padding: 0; margin: 0; font-style: italic;">此操作不可恢复</p>
+		<a href="#" class="btn cancel">取消</a>
+		<a href="#" class="btn btn-primary confirm">删除</a>
+	</div>
+</div>
+</script>
 <script type="text/javascript">
 <!--
 //-->
@@ -145,6 +157,7 @@ $this->pageTitle=Yii::app()->name;
 			</div>
 		</div>
 	</div>
+	
 	<div id="settings" class="modal hide fade">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

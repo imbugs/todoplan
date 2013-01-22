@@ -34,6 +34,7 @@
 	
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/js/jquery.yiiactiveform.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/js/tp.core.js"></script>
+	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/js/tp.confirm.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/js/tp.inputeditor.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/js/tp.item.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/js/tp.list.js"></script>

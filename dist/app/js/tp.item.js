@@ -57,12 +57,12 @@
 				var element = $(this).parent().parent();
 				var id = $(element).parent().attr('rel');
 				var title = $(element).find('span.title').text();
-				if (confirm("确定删除 [" + title + "] ?")) {
+				TP.fn.confirm('将删除任务 "' + title + '" ，是否继续?', function() {
 					TP.item.controller.deleteItem(id, function(reps){
 						TP.fn.msg('删除任务', 'info');
 						$(element).parent().remove();
 					});
-				}
+				});
 				e.stopPropagation();
 			    return false;
 			});

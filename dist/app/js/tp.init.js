@@ -47,7 +47,7 @@ $(function() {
 		if (elem != null && $(elem).hasClass('deletable')) {
 			var listId = $(elem).attr('rel');
 			var title = $(elem).find('span.title').text();
-			if (confirm("该操作会永久删除列表["+ title +"]中所有任务,是否继续?")) {
+			TP.fn.confirm('将删除列表 "'+ title +'" （含任务），是否继续?', function() {
 				TP.list.controller.deleteItem(listId, function(reps) {
 					TP.fn.msg('删除列表', 'info');
 					var select = $(elem).next('li.task-list');
@@ -57,7 +57,7 @@ $(function() {
 					TP.list.view.select(select);
 					$(elem).remove();
 				});
-			}
+			});
 		}
 	});
 
