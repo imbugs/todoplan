@@ -7,7 +7,7 @@
 	<meta name="application-name" content="TodoPlan">
 	<meta name="description" content="在线任务管理">
 	<meta name="keywords" content="任务管理,task,manager,todo,plan,list">
-	<link rel="canonical" href="<?php echo Yii::app()->homeUrl; ?>">
+	<link rel="canonical" href="http://<?php echo Yii::app()->request->getServerName();?>">
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/tp-main.css"/>
 	<!--[if lt IE 8]>
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/css/ie.css" media="screen, projection" />
