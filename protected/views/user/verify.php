@@ -31,7 +31,7 @@ $this->pageTitle=Yii::app()->name . ' - 邮箱验证';
 				doUpdate: function (num, url) {
 					var text = '已完成邮箱校验<br/>将在' + num + '秒后自动跳转到 <a href="' + url + '" class="default">首页</a>';
 					$('p#show-div').html(text); 
-					if(num == 0) { window.location.href=url;} 
+					if(num <= 0) { window.location.href=url;} 
 				}
 			};
 			autoJump.loadUrl("<?php echo Yii::app()->homeUrl; ?>");
