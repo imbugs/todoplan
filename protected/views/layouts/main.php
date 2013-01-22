@@ -24,7 +24,7 @@
 		<p class="muted pagination-centered">
 			Copyright &copy;
 			<?php echo date('Y'); ?>
-			by TodoPlan, All Rights Reserved.<br />
+			by <a href="mailto:<?php echo Yii::app()->params->adminEmail;?>" target="_blank">TodoPlan</a>, All Rights Reserved. <br />
 		</p>
 	</div>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/tp-all.js"></script>
