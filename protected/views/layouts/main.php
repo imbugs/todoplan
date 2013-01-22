@@ -12,6 +12,11 @@
 	<!--[if lt IE 8]>
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/css/ie.css" media="screen, projection" />
 	<![endif]-->
+	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/tp-all.js"></script>
+	<script type="text/javascript">
+	<!--
+	//-->
+	</script>
 	<title><?php echo CHtml::encode($this->pageTitle); ?></title>
 </head>
 
@@ -27,10 +32,5 @@
 			by <a href="mailto:<?php echo Yii::app()->params->adminEmail;?>" target="_blank">TodoPlan</a>, All Rights Reserved. <br />
 		</p>
 	</div>
-	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/tp-all.js"></script>
-	<script type="text/javascript">
-	<!--
-	//-->
-	</script>
 </body>
 </html>

@@ -16,7 +16,7 @@ $this->pageTitle=Yii::app()->name . ' - 邮箱验证';
 			</a>
 		</div>
 		<h2>邮箱验证</h2>
-		<?php if($model->redirect) { ?>
+		<?php if(!$model->redirect) { ?>
 		<p id="show-div"></p>
 		<script language="javascript">
 		(function($, win) {

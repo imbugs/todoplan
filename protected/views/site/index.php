@@ -226,4 +226,4 @@ $this->pageTitle=Yii::app()->name;
 		</div>
 	</div>
 </div>
-
+<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/js/tp.init.js"></script>

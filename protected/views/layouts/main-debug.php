@@ -40,7 +40,6 @@
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/js/tp.list.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/js/tp.app.js"></script>
 	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/js/tp.scroll.patch.js"></script>
-	<script type="text/javascript" src="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/js/tp.init.js"></script>
 	
 	<script type="text/javascript">
 	<!--
