@@ -13,6 +13,23 @@ class Session {
 		}
 		return $useId;
 	}
+	
+	/**
+	 * get session oauthid
+	 */
+	public static function oauthUId () {
+		$useId = null;
+		if (isset($_SESSION['token']) && isset($_SESSION['token']['uid'])) {
+			$useId = $_SESSION['token']['uid'];
+		}
+		return $useId;
+	}
+	
+	public static function logout() {
+		Yii::app()->user->logout();
+		unset($_SESSION['token']);
+	}
+	
 	/**
 	 * get session userinfo
 	 */

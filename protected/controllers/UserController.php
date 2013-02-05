@@ -1,4 +1,6 @@
 <?php
+Yii::import("ext.wbsdk.SaetV2Ex", true);
+
 class UserController extends Controller
 {
 	public function filters() {
@@ -64,8 +66,14 @@ class UserController extends Controller
 				$this->redirect(Yii::app()->homeUrl);
 			}
 		}
+		
+		$openApi = new stdClass();
+		
+		$oAuth = new SaeTOAuthV2( WB_AKEY , WB_SKEY );
+		$openApi->wbUrl = $oAuth->getAuthorizeURL( WB_CALLBACK_URL );
+		
 		// display the login form
-		$this->render('login',array('model'=>$model));
+		$this->render('login',array('model'=>$model, 'openApi' => $openApi));
 	}
 
 	public function actionSignup() {
@@ -127,7 +135,7 @@ class UserController extends Controller
 	 * Logs out the current user and redirect to homepage.
 	 */
 	public function actionLogout() {
-		Yii::app()->user->logout();
+		Session::logout();
 		$this->redirect(Yii::app()->homeUrl);
 	}
 }

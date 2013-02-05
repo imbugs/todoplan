@@ -35,7 +35,9 @@ class SiteController extends Controller {
 		$userId = Session::userId();
 		$userAction = new UserAction;
 		$userInfo = $userAction->getUserById($userId);
-		if (isset($userInfo->status) && $userInfo->status == UserConstant::STATUS_ACTIVE) {
+		
+		$oauthUid = Session::oauthUId();
+		if (isset($userInfo->status) && $userInfo->status == UserConstant::STATUS_ACTIVE || !empty($oauthUid)) {
 			$this->render('index', array("userInfo" => $userInfo));
 		} else if (isset($userInfo->status) && $userInfo->status == UserConstant::STATUS_TOVALID) {
 			$this->redirect(Config::getUrl('verifyUrl'));
@@ -49,6 +51,7 @@ class SiteController extends Controller {
 	 */
 	public function actionError() {
 		if($error=Yii::app()->errorHandler->error) {
+			Session::logout();
 			if(Yii::app()->request->isAjaxRequest) {
 				echo $error['message'];
 			} else {

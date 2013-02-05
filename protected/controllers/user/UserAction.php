@@ -21,11 +21,36 @@ class UserAction {
 	}
 	
 	/**
+	 * 根据loginType获取用户信息
+	 * @param string $type
+	 * @param string $uid
+	 */
+	public function getUserByLoginType($type, $uid) {
+		$user = $this->getUserByAttributes(array('login_type' => $type, 'oauth_uid' => $uid));
+        return $user;
+	}
+	/**
+	 * 绑定oAuth信息
+	 */
+	public function bindOAuthInfo($username, $type, $uid) {
+		$record = User::model()->findByAttributes(array('username' => $username));
+		if ($record != null) {
+			$record->login_type = $type;
+			$record->oauth_uid = $uid;
+			$record->gmt_update = new CDbExpression('now()');
+			if ($record->save()) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * 根据email获取User信息 
 	 * @param string $email
 	 */
-	public function getUserByEmail($email) {
-		$user = $this->getUserByAttributes(array('email' => $email));
+	public function getUserByEmail($email, $status = UserConstant::STATUS_ACTIVE) {
+		$user = $this->getUserByAttributes(array('email' => $email, 'status' => $status));
         return $user;
 	}
 
@@ -78,6 +103,48 @@ class UserAction {
 			if ($user->status == UserConstant::STATUS_TOVALID) {
 				$this->sendVerifyMail($user);
 			}
+			Yii::log("create user [{$userInfo->username}]", CLogger::LEVEL_INFO);
+		} else {
+			$result->error_msg = $taskList->error_msg;
+			Yii::log("create user failed [{$result->error_msg}]", CLogger::LEVEL_WARNING);
+		}
+		return $result;
+	}
+	
+	/**
+	 * 创建OauthUser
+	 * @param mixed $userInfo
+	 * $userInfo->username
+	 * $userInfo->email
+	 * @param string $type
+	 * @param string $uid
+	 */
+	public function createOauthUser($userInfo, $type, $uid)
+	{
+		$user = new User;
+		$result = new stdClass();
+		$result->success = false;
+		
+		if (isset($userInfo) 
+			&& isset($userInfo->username) 
+			&& isset($userInfo->email))
+		{
+			$user->username = $userInfo->username;
+			$user->email = $userInfo->email;
+		} else {
+			$result->error_msg = "invalid user infomation.";
+			return $result;
+		}
+		$user->status = UserConstant::STATUS_TOVALID;
+		$user->login_type = $type;
+		$user->oauth_uid = $uid;
+		$user->gmt_update = new CDbExpression('now()');
+		$user->gmt_create = new CDbExpression('now()');
+		
+		$user->colNames = array('username', 'email', 'login_type', 'oauth_uid');
+		if ($user->save()) {
+			$result->success = true;
+			$result->error_msg = "";
 			Yii::log("create user [{$userInfo->username}]", CLogger::LEVEL_INFO);
 		} else {
 			$result->error_msg = $taskList->error_msg;
@@ -142,6 +209,14 @@ class UserAction {
 				$record->status = UserConstant::STATUS_ACTIVE;
 				$record->gmt_update = new CDbExpression('now()');
 				if ($record->save()) {
+					try {
+						// 清除其它用户乱占用的邮箱地址
+						$criteria = new CDbCriteria;
+						$status = UserConstant::STATUS_TOVALID;
+						$criteria->condition="email='{$record->email}' and status='{$status}'";
+						User::model()->updateAll(array('email' => ''), $criteria);
+					} catch (Exception $e) {
+					}
 					return true;
 				}
 			}

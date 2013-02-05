@@ -26,6 +26,14 @@ class UserIdentity extends CUserIdentity {
         return $this->errorCode;
     }
  
+    public function oauthLogin() {
+    	$record = User::model()->findByAttributes(array('username' => $this->username));
+    	$this->_id = $record->id;
+        $userInfo = $record->copy();
+        $this->setState("userinfo", $userInfo);
+		$this->errorCode = self::ERROR_NONE;
+    }
+
     public function getId() {
         return $this->_id;
     }

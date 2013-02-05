@@ -7,6 +7,8 @@ class User extends CActiveRecord
 {
 	var $error_msg = null;
 	var $checkOwner = true;
+	var $colNames = array("username", "password", "email");
+	
     public static function model($className=__CLASS__)
     {
         return parent::model($className);
@@ -19,8 +21,7 @@ class User extends CActiveRecord
     
 	public function beforeSave() {
 		// validate column
-		$colNames = array("username", "password", "email");
-		foreach ($colNames as $col) {
+		foreach ($this->colNames as $col) {
 			if (empty($this->$col)) {
 				$this->error_msg = "table [{$this->tableName()}], column [{$col}] can not be empty.";
 				return false;
@@ -50,7 +51,7 @@ class User extends CActiveRecord
 	}
 	
 	public function copy() {
-		$colNames = array("username", "status", "password", "email");
+		$colNames = array("username", "status", "password", "email", "login_type");
 			
 		$to = new stdClass();
 		foreach ($colNames as $col) {
@@ -60,12 +61,13 @@ class User extends CActiveRecord
 		return $to;
 	}
 	
-	// 删除早于maxVerifyTime且没有验证的用户
+	// 删除早于maxVerifyTime且没有验证的LOCAL用户
 	public static function deleteUnverify() {
 		$maxVerifyTime = Config::getInstance()->maxVerifyTime;
 		$unverify = UserConstant::STATUS_TOVALID;
+		$local = UserConstant::TYPE_LOCAL;
 		$criteria = new CDbCriteria;
-		$criteria->condition = "gmt_update < date_add(now(), interval -{$maxVerifyTime} second) and status = '{$unverify}'";
+		$criteria->condition = "gmt_update < date_add(now(), interval -{$maxVerifyTime} second) and status = '{$unverify}' and login_type= '{$local}'";
 		$count = User::model()->deleteAll($criteria);
 		return $count;
 	}

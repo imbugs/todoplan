@@ -1,14 +1,9 @@
 <?php
-/**
- * LoginForm class.
- * LoginForm is the data structure for keeping
- * user login form data. It is used by the 'login' action of 'SiteController'.
- */
-class SignupForm extends CFormModel {
+class CreateForm extends CFormModel {
 	public $username;
 	public $email;
-	public $password;
-
+	public $token;
+	
 	private $_identity;
 
 	/**
@@ -22,9 +17,12 @@ class SignupForm extends CFormModel {
 			array('username', 'required'),
 			// 用户名必须在 3 到 12 个字符之间
 			array('username', 'length', 'min'=>4, 'max'=>12),
-			// email, password, password2 required
-			array('email, password', 'required'),
-			array('password', 'check'),
+			// email
+			array('email', 'required'),
+			
+			array('username', 'check'),
+			
+			array('token', 'required'),
 		);
 	}
 	
@@ -34,7 +32,6 @@ class SignupForm extends CFormModel {
 	public function attributeLabels() {
 		return array(
 			'username'=>'用户名',
-			'password'=>'密码',
 			'email'=>'电子邮件'
 		);
 	}
@@ -45,10 +42,21 @@ class SignupForm extends CFormModel {
 			$error = array_shift($errors);
 			$this->addError('errorMsg',$error[0]);
 		} else {
+			// 检查token
+			if (!isset($_SESSION['token']['uid'])) {
+				$this->addError('errorMsg','oauth uid错误.');
+				return;
+			}
+			if ($this->token !== $_SESSION['token']['access_token']) {
+				$this->addError('errorMsg','oauth token错误.');
+				return;
+			}
+			
 			if(filter_var($this->email,FILTER_VALIDATE_EMAIL) === false) {
 				$this->addError('errorMsg',"电子邮件不合法");
 				return;
 			}
+			
 			// 删除没有认证的，以防乱注册
 			User::deleteUnverify();
 			$userAction = new UserAction;
@@ -67,14 +75,14 @@ class SignupForm extends CFormModel {
 	 * Logs in the user using the given username and password in the model.
 	 * @return boolean whether login is successful
 	 */
-	public function signup() {
+	public function execute() {
 		$userAction = new UserAction;
-		$result = $userAction->createUser($this);
+		$result = $userAction->createOauthUser($this, UserConstant::TYPE_WEIBO, $_SESSION['token']['uid']);
 		$autoLogin = false;
 		if ($result->success) {
 			if($this->_identity===null) {
-				$this->_identity=new UserIdentity($this->username,$this->password);
-				$this->_identity->authenticate();
+				$this->_identity=new UserIdentity($this->username,'');
+				$this->_identity->oauthLogin();
 				if($this->_identity->errorCode===UserIdentity::ERROR_NONE) {
 					// auto login after signup
 					$autoLogin = Yii::app()->user->login($this->_identity, 0);

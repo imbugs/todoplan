@@ -128,3 +128,7 @@ CREATE TABLE `verify_mail` (
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2013-01-18 19:51:28
+
+-- 2012.02.05
+-- USER
+ALTER TABLE `user` ADD COLUMN `oauth_uid` VARCHAR(256) NULL DEFAULT NULL  AFTER `login_type` ;

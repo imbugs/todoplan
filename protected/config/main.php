@@ -1,10 +1,15 @@
 <?php
+// weibo API
+define( "WB_AKEY" , '92952576' );
+define( "WB_SKEY" , 'b40685455abbde19739f1f72a04a1f14' );
+define( "WB_CALLBACK_URL" , 'http://todoplan.net/todoplan/?r=oauth/weibo' );
 
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');
 
 // This is the main Web application configuration. Any writable
 // CWebApplication properties can be configured here.
+
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'TodoPlan',
@@ -16,6 +21,7 @@ return array(
 	// autoloading model and component classes
 	'import'=>array(
 		'application.models.*',
+		'application.models.oauth.*',
 		'application.components.*',
 		'application.controllers.common.*',
 		'application.controllers.ar.*',

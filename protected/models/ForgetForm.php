@@ -42,6 +42,9 @@ class ForgetForm extends CFormModel {
 			if ($this->userInfo == null) {
 				$this->addError('errorMsg',"该用户名不存在");
 			}
+			if ($this->userInfo->status === UserConstant::STATUS_TOVALID) {
+				$this->addError('errorMsg',"您的邮箱没有验证");
+			}
 		}
 	}
 
