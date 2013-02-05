@@ -34,6 +34,9 @@ class ChangeEmailAction extends CAction {
         	$user->status === UserConstant::STATUS_TOVALID;
         	$user->gmt_update = new CDbExpression('now()');
         	if ($user->save()) {
+        		// 从数据库刷新Session中的UserInfo信息
+        		Yii::app()->user->userinfo = null;
+        		Session::userInfo();
 	            $result->success = true;
     	        $result->error_msg = "邮箱地址更新成功.";
         	} else {
