@@ -49,6 +49,14 @@ $this->pageTitle=Yii::app()->name . ' - 登录';
 				还没有账号？<a href="<?php echo Config::getUrl('signupUrl');?>" class="default">立即注册</a>！
 			</span>
 		</div>
+		<div class="third-login" style="margin-top: 20px;">
+			<span>使用第三方账号登录:</span>
+			
+			<div>
+				<a href="<?php echo $openApi->wbUrl;?>" class="default">新浪微博</a>
+				QQ
+			</div>
+		</div>
 	</div>
 <?php $this->endWidget(); ?>
 </div><!-- form -->

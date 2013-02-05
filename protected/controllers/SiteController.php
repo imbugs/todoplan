@@ -37,10 +37,12 @@ class SiteController extends Controller {
 		$userInfo = $userAction->getUserById($userId);
 		
 		$oauthUid = Session::oauthUId();
-		if (isset($userInfo->status) && $userInfo->status == UserConstant::STATUS_ACTIVE || !empty($oauthUid)) {
-			$this->render('index', array("userInfo" => $userInfo));
-		} else if (isset($userInfo->status) && $userInfo->status == UserConstant::STATUS_TOVALID) {
+		if (isset($userInfo->status) && $userInfo->status == UserConstant::STATUS_TOVALID && empty($oauthUid)) {
+			// 末验证，非oauth登录
 			$this->redirect(Config::getUrl('verifyUrl'));
+		}
+		if (isset($userInfo->status)) {
+			$this->render('index', array("userInfo" => $userInfo));
 		} else {
 			$this->redirect(Config::getUrl('logoutUrl'));
 		}

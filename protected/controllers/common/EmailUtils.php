@@ -2,6 +2,9 @@
 class EmailUtils {
 	
 	public static function sendYiiMail($to, $subject, $body, $debug = false) {
+		if (empty($to)) {
+			return false;
+		}
 		$from = 'support@todoplan.net';
 		//$from = 'todoplan@126.com';
 		$message = new YiiMailMessage;
