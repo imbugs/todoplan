@@ -114,4 +114,25 @@ $(function() {
 			$(target).html('<div class="alert alert-error">' + data.error_msg + '</div>');
 		}
 	});
+	
+	// change email
+	$('button#changeEmail').click(function(e) {
+		var oldemail = $('div#email-display > span.email').text();
+		var email = $('div#email-editor > input').val();
+		if (email != oldemail) {
+			TP.app.updateEmail(email, function() {
+				$('div#email-display > span.email').text(email);
+				TP.fn.msg("更新电子邮件地址", "info");
+			});
+		}
+		$('div#email-display').show();
+		$('div#email-editor').hide();
+	});
+	
+	$('a.change-email').click(function(e) {
+		var email = $('div#email-display > span.email').text();
+		$('div#email-editor > input').val(email);
+		$('div#email-display').hide();
+		$('div#email-editor').show();
+	});
 });

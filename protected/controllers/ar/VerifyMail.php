@@ -37,6 +37,7 @@ class VerifyMail extends CActiveRecord
 			$record = array_shift($record);
 			// update
 			$record->code = StringUtils::getUUID();
+			$record->email = $user->email;
 			$record->gmt_update = new CDbExpression('now()');
 		} else {
 			// insert

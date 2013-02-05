@@ -63,6 +63,11 @@ $this->pageTitle=Yii::app()->name;
 </script>
 <style>
 <!--
+.ui-sortable-helper {
+	display: block;
+	position: fixed;
+	background-color: red;
+}
 -->
 </style>
 <div class="container-fluid height100">
@@ -179,8 +184,16 @@ $this->pageTitle=Yii::app()->name;
 					    </div>
 					    <div class="control-group">
 					        <div class="info-label">电子邮件</div>
-					        <div class="controls">
-					        	<?php echo $userInfo->email;?>
+					        <div id="email-display" class="controls">
+					        	<span class="email"><?php echo $userInfo->email;?></span>
+					        <?php if ($userInfo->status == UserConstant::STATUS_TOVALID) {?>
+					        	<a href="#" class="default change-email">修改</a>
+					        	<a href="<?php echo Config::getUrl('verifyUrl');?>&send=true" class="default verify-email" style="margin-left: 5px;">发送校验邮件</a>
+					        </div>
+					        <div id="email-editor" class="controls" style="display: none;">
+					        	<input class="input-medium update" type="email" value="<?php echo $userInfo->email;?>"/>
+					        	<button id="changeEmail" type="submit" class="btn" style="padding: 1px 5px;">保存</button>
+					        <?php }?>
 					        </div>
 					    </div>
 					</div>

@@ -35,6 +35,7 @@ class ChangePasswordAction extends CAction {
             $result->error_msg = "密码错误.";
         } else {
         	$user->password = md5($newPasswd);
+        	$user->gmt_update = new CDbExpression('now()');
         	if ($user->save()) {
 	            $result->success = true;
     	        $result->error_msg = "密码更新成功.";

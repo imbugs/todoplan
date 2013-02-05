@@ -24,6 +24,19 @@
 			$('li.task-item').each(function(idx) {
 				$(this).show();
 			});
+		},
+		updateEmail: function(email, handler) {
+			if (email && email != "") {
+				$.post("?r=user/changemail", {email: email}, function(reps){
+					if (reps.success) {
+						if (handler && typeof(handler) == "function") {
+							handler(reps);
+						}
+					} else {
+						TP.fn.msg(reps.error_msg);
+					}
+				},"json");
+			}
 		}
 	});
 })($, window.TP);

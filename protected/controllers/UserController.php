@@ -12,7 +12,7 @@ class UserController extends Controller
 	public function accessRules() {
         return array(
             array('deny',  // deny all guests
-				'actions'=>array('changepasswd', 'verify'),
+				'actions'=>array('changepasswd', 'verify', 'changemail'),
 				'users'=>array('?')
 			),
 			array('allow',
@@ -29,7 +29,10 @@ class UserController extends Controller
 		return array(
 			'changepasswd'=>array(
 				'class'=>'application.controllers.user.ChangePasswordAction',
-			)
+			),
+			'changemail'=>array(
+				'class'=>'application.controllers.user.ChangeEmailAction',
+			),
 		);
 	}
 	

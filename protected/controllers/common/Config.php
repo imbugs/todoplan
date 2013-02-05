@@ -13,6 +13,7 @@ class Config {
 		$this->urls['signupUrl'] = "?r=user/signup";
 		$this->urls['forgetUrl'] = "?r=user/forget";
 		$this->urls['verifyUrl'] = "?r=user/verify";
+		$this->urls['changemailUrl'] = "?r=user/changemail";
 		
 		// 最长校验时限，超过此时间会删除校验码, (秒)
 		$this->maxVerifyTime = 24 * 3600; // 1天

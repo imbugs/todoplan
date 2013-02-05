@@ -35,7 +35,7 @@ class SiteController extends Controller {
 		$userId = Session::userId();
 		$userAction = new UserAction;
 		$userInfo = $userAction->getUserById($userId);
-		
+
 		$oauthUid = Session::oauthUId();
 		if (isset($userInfo->status) && $userInfo->status == UserConstant::STATUS_TOVALID && empty($oauthUid)) {
 			// 末验证，非oauth登录
