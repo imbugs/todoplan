@@ -50,11 +50,10 @@ $this->pageTitle=Yii::app()->name . ' - 登录';
 			</span>
 		</div>
 		<div class="third-login" style="margin-top: 20px;">
-			<span>使用第三方账号登录:</span>
-			
+			<span class="opacity75">---- 使用第三方账号登录 ----</span>
 			<div>
+				<img src="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/images/weibo-24.png" style="margin:0px 5px -3px 0px;"/>
 				<a href="<?php echo $openApi->wbUrl;?>" class="default">新浪微博</a>
-				QQ
 			</div>
 		</div>
 	</div>
