@@ -2,7 +2,7 @@
 // weibo API
 define( "WB_AKEY" , '92952576' );
 define( "WB_SKEY" , 'b40685455abbde19739f1f72a04a1f14' );
-define( "WB_CALLBACK_URL" , 'http://todoplan.net/todoplan/?r=oauth/weibo' );
+define( "WB_CALLBACK_URL" , "http://{$_SERVER['HTTP_HOST']}/?r=oauth/weibo");
 
 // uncomment the following to define a path alias
 // Yii::setPathOfAlias('local','path/to/local-folder');

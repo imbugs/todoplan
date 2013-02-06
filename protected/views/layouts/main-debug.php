@@ -7,13 +7,13 @@
 
 	<!-- blueprint CSS framework -->
 	<!-- APP CSS -->
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/bootstrap/css/bootstrap.min.css" />
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/bootstrap/css/bootstrap-responsive.min.css"/>
+	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/bootstrap/css/bootstrap.css" />
+	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/bootstrap/css/bootstrap-responsive.css"/>
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/pnotify/css/jquery.pnotify.default.css"/>
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/css/wunderlist.css"/>
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/css/screen.css" media="screen, projection" />
-	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/css/print.css" media="print" />
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/css/main.css"/>
+	<!-- http://localhost/min/b=dist&f=bootstrap/css/bootstrap.css,bootstrap/css/bootstrap-responsive.css,pnotify/css/jquery.pnotify.default.css,app/css/wunderlist.css,app/css/screen.css,app/css/main.css -->
 	<!--[if lt IE 8]>
 	<link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->request->baseUrl; ?>/dist/app/css/ie.css" media="screen, projection" />
 	<![endif]-->
