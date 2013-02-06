@@ -63,11 +63,6 @@ $this->pageTitle=Yii::app()->name;
 </script>
 <style>
 <!--
-.ui-sortable-helper {
-	display: block;
-	position: fixed;
-	background-color: red;
-}
 -->
 </style>
 <div class="container-fluid height100">
