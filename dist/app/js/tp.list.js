@@ -61,6 +61,7 @@
 			// to drop item 
 			$('a', itemElem).droppable({
 		    	hoverClass: 'drop-box',
+		    	tolerance: 'pointer',
 		        drop: function( event, ui ) {
 			        var listId = $(this).parent().attr('rel');
 			        if (!ui.draggable.hasClass('droppable')) {
