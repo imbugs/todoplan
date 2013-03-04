@@ -55,6 +55,7 @@ class ResetForm extends CFormModel {
 
 	public function resetPassword() {
 		$userInfo = new stdClass();
+		$userInfo->username = $this->username;
 		$userInfo->password = $this->newPasswd;
 		$userAction = new UserAction();
 		$result = $userAction->doResetPasswd($userInfo, $this->resetKey);
