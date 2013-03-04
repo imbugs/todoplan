@@ -61,6 +61,7 @@
 			// to drop item 
 			$('a', itemElem).droppable({
 		    	hoverClass: 'drop-box',
+		    	accept: 'li.task-item',
 		    	tolerance: 'pointer',
 		        drop: function( event, ui ) {
 			        var listId = $(this).parent().attr('rel');

@@ -23,6 +23,7 @@
 			scrollControll.iconTask.css('top', event.pageY - 15);
 			scrollControll.iconTask.css('left', event.pageX + 20);
 			if (scrollControll.iconTask != null) {
+				// check droppable box
 				if ($('a.drop-box').size() > 0) {
 					scrollControll.iconTask.removeClass('icon-tasks');
 					scrollControll.iconTask.addClass('icon-download-alt');
@@ -66,6 +67,10 @@
 				} else if(scroll.win.height() - (event.pageY - scroll.getOffset().top) < 0) {
 					scrollControll.doScrollDown(scroll);
 				}
+			}
+			if (this.current != null && this.current.element.hasClass('task_lists')) {
+				// 对任务list不进行处理
+				return;
 			}
 			// 水平拖动变化
 			var left = $('div#scrollable-item').offset().left;
