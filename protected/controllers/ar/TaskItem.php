@@ -40,7 +40,8 @@ class TaskItem extends CActiveRecord
 					$this->error_msg = "no permission to change the record..";
 				}
 			} else {
-				$this->error_msg = "can not find [{$this->tableName()}] by id [{$this->list_id}].";
+				$id = StringUtils::encode($this->list_id);
+				$this->error_msg = "can not find [{$this->tableName()}] by id [{$id}].";
 			}
 		}
 		return false;

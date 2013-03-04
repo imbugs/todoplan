@@ -3,8 +3,8 @@ class DeleteAction extends CAction
 {
 	public function run()
 	{
-		$id = Yii::app()->getRequest()->getParam("id", "-1");
-		$id = StringUtils::decode($id);
+		$sid = Yii::app()->getRequest()->getParam("id", "-1");
+		$id = StringUtils::decode($sid);
 		$taskItem = TaskItem::model()->findByPk($id);
 
 		$result = new stdClass();
@@ -19,7 +19,7 @@ class DeleteAction extends CAction
 				$result->error_msg = $taskItem->error_msg;
 			}
 		} else {
-			$result->error_msg = "can not find item by id [{$id}]";
+			$result->error_msg = "can not find item by id [{$sid}]";
 		}
 		echo json_encode($result);
 	}
