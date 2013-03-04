@@ -7,14 +7,13 @@ class ResetForm extends CFormModel {
 	public $success;
 
 	private $userInfo;
-	
+
 	/**
 	 * Declares the validation rules.
 	 * The rules state that username and newPasswd are required,
 	 * and newPasswd needs to be authenticated.
 	 */
 	public function rules() {
-		$userInfo->username = StringUtils::decode($this->username);
 		return array(
 			// username required
 			array('username, newPasswd, verifyPasswd, resetKey', 'required'),

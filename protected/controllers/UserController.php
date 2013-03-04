@@ -123,7 +123,8 @@ class UserController extends Controller
 		$model = new ResetForm;
 		$model->resetKey = Yii::app()->getRequest()->getParam("resetKey", "");
 		$model->username = Yii::app()->getRequest()->getParam("username", "");
-		
+		$model->username = StringUtils::decode($model->username);
+
 		if(isset($_POST['ResetForm'])) {
 			$model->attributes=$_POST['ResetForm'];
 			// validate user input and redirect to the previous page if valid
