@@ -14,6 +14,7 @@ class ResetForm extends CFormModel {
 	 * and newPasswd needs to be authenticated.
 	 */
 	public function rules() {
+		$userInfo->username = StringUtils::decode($this->username);
 		return array(
 			// username required
 			array('username, newPasswd, verifyPasswd, resetKey', 'required'),
@@ -46,8 +47,7 @@ class ResetForm extends CFormModel {
 				$this->addError('errorMsg',"新密码不一致");
 			}
 			$userAction = new UserAction;
-			$username = StringUtils::decode($this->username);
-			$this->userInfo = $userAction->getUserByName($username);
+			$this->userInfo = $userAction->getUserByName($this->username);
 			if ($this->userInfo == null) {
 				$this->addError('errorMsg',"该用户名不存在");
 			}
@@ -56,7 +56,6 @@ class ResetForm extends CFormModel {
 
 	public function resetPassword() {
 		$userInfo = new stdClass();
-		$userInfo->username = StringUtils::decode($this->username);
 		$userInfo->password = $this->newPasswd;
 		$userAction = new UserAction();
 		$result = $userAction->doResetPasswd($userInfo, $this->resetKey);
